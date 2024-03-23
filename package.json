@@ -44,6 +44,6 @@
       "prettier --cache --write",
       "eslint --cache --cache-location ./.cache/.eslintcache"
     ],
-    "*.json": "prettier --cache --write"
+    "*.{json,css}": "prettier --cache --write"
   }
 }

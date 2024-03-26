@@ -3,7 +3,7 @@ import MenuButton from './MenuButton';
 
 export default function NavBar() {
   return (
-    <header className="fixed h-16 w-full bg-gray-800 px-4 py-3 shadow-lg backdrop-blur">
+    <header className="fixed h-16 w-full bg-base-500 px-4 py-3 shadow-lg backdrop-blur">
       <div className="m-auto flex h-full max-w-6xl items-center justify-between">
         <Link to="/" className="aspect-square h-full">
           <img src="/favicon.ico" alt="Sanbo-Sillok" />

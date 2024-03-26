@@ -3,6 +3,7 @@ import Wiki from './pages/Wiki';
 import Home from './pages/Home';
 import LayoutWithNav from './pages/layouts/LayoutWithNav';
 import Login from './pages/Login';
+import LayoutWithoutNav from './pages/layouts/LayoutWithoutNav';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -21,8 +22,14 @@ export default function App() {
       ],
     },
     {
-      path: '/login',
-      element: <Login />,
+      path: '/',
+      element: <LayoutWithoutNav />,
+      children: [
+        {
+          path: '/login',
+          element: <Login />,
+        },
+      ],
     },
   ]);
 

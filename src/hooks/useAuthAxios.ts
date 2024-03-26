@@ -2,6 +2,7 @@ import axios from 'axios';
 import useSetToken from './useSetToken';
 import useToken from './useToken';
 import { REFRESH_TOKEN } from '../constants/auth';
+import { RefreshResponse } from '../types/api';
 
 export default function useAuthAxios() {
   const { accessToken } = useToken();
@@ -35,8 +36,11 @@ export default function useAuthAxios() {
         try {
           const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
-          const response = await axios.post(`${import.meta.env.VITE_API_DOMAIN}/auth/token/refresh/`, { refreshToken });
-          const { accessToken: newAccessToken } = response.data;
+          const response = await axios.post<RefreshResponse>(`${import.meta.env.VITE_API_DOMAIN}/auth/token/refresh/`, {
+            refresh: refreshToken,
+          });
+
+          const { access: newAccessToken } = response.data;
 
           setAccessToken(newAccessToken);
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;

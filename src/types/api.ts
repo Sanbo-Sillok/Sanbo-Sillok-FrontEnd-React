@@ -9,4 +9,6 @@ export interface LoginResponse {
   };
 }
 
-export interface RefreshResponseData {}
+export interface RefreshResponse {
+  access: string;
+}

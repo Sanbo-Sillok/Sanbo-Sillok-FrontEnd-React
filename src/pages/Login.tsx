@@ -1,21 +1,34 @@
-import { Link } from 'react-router-dom';
-
-const USERNAME = 'username';
-const PASSWORD = 'password';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuthAxios from '../hooks/useAuthAxios';
+import { LoginResponse } from '../types/api';
+import useSetToken from '../hooks/useSetToken';
+import { REFRESH_TOKEN } from '../constants/auth';
 
 interface LoginFormData extends FormData {
-  get(name: typeof USERNAME | typeof PASSWORD): string;
+  get(name: 'username' | 'password'): string;
 }
 
 export default function Login() {
-  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+  const authAxios = useAuthAxios();
+  const { setAccessToken } = useSetToken();
+  const navigate = useNavigate();
+
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget) as LoginFormData;
+    const loginFormData = new FormData(event.currentTarget) as LoginFormData;
 
-    // TODO: 로그인 API 연결
-    console.log(data.get(USERNAME));
-    console.log(data.get(PASSWORD));
+    const username = loginFormData.get('username');
+    const password = loginFormData.get('password');
+
+    const response = await authAxios.post<LoginResponse>('/auth/login', { username, password });
+
+    const { access_token: accessToken, refresh_token: refreshToken } = response.data.token;
+
+    setAccessToken(accessToken);
+    window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
+
+    if (response.status === 200) navigate('/');
   };
 
   return (
@@ -24,8 +37,8 @@ export default function Login() {
       <form onSubmit={handleLogin} className="flex flex-col items-center">
         <div className="grid grid-cols-4 gap-1 mobile:flex mobile:flex-col">
           <div className="col-span-3 flex flex-col gap-1">
-            <input className="rounded-md border p-2 dark:text-black" placeholder="Username" type="text" name={USERNAME} />
-            <input className="rounded-md border p-2 dark:text-black" placeholder="Password" type="password" name={PASSWORD} />
+            <input className="rounded-md border p-2 dark:text-black" placeholder="Username" type="text" name="username" />
+            <input className="rounded-md border p-2 dark:text-black" placeholder="Password" type="password" name="password" />
           </div>
           <button className="col-span-1 h-full w-full rounded-md bg-base-200 mobile:ml-0 mobile:mt-2 mobile:h-10" type="submit">
             로그인

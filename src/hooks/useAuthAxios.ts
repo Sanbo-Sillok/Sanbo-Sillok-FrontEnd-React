@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useSetToken from './useSetToken';
 import useToken from './useToken';
@@ -22,9 +22,7 @@ export default function useAuthAxios() {
     },
   });
 
-  async function getNewRefreshToken(requestConfig: AxiosRequestConfig) {
-    const originalRequest = { ...requestConfig };
-
+  async function getNewRefreshToken() {
     try {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
@@ -35,18 +33,14 @@ export default function useAuthAxios() {
 
       setAccessToken(newAccessToken);
 
-      if (!originalRequest.headers) originalRequest.headers = {};
-      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
-      // eslint-disable-next-line @typescript-eslint/return-await
-      return authAxios(originalRequest);
+      return newAccessToken;
     } catch (refreshError) {
       if (isAxiosError(refreshError) && refreshError.response?.status === 401) {
         localStorage.removeItem(REFRESH_TOKEN);
         navigate('/login');
       }
 
-      return Promise.reject(refreshError);
+      return null;
     }
   }
 
@@ -67,7 +61,12 @@ export default function useAuthAxios() {
 
       if (error.response.status === 401 && !originalRequest.retry) {
         originalRequest.retry = true;
-        return getNewRefreshToken(originalRequest);
+        const newAccessToken = await getNewRefreshToken();
+
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+
+        // eslint-disable-next-line @typescript-eslint/return-await
+        return authAxios(originalRequest);
       }
 
       return Promise.reject(error);

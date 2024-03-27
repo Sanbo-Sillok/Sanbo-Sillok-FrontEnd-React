@@ -16,7 +16,7 @@ export default function App() {
           element: <Home />,
         },
         {
-          path: '/:id',
+          path: '/wiki/:pageTitle',
           element: <Wiki />,
         },
       ],

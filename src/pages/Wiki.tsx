@@ -5,11 +5,14 @@ import { WikiData } from '../types/wiki';
 import MarkdownToHTML from '../components/MarkdownToHTML';
 import { getLastUpdateTime } from '../utils/getLastUpdateTime';
 import getLastUpdateUser from '../utils/getLastUpdateUser';
+import TOC from '../components/TOC';
 
 export default function Wiki() {
   const { pageTitle } = useParams();
+
   const [wikiData, setWikiData] = useState<WikiData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
   const authAxios = useAuthAxios();
 
   async function fetchWikiData() {
@@ -23,7 +26,7 @@ export default function Wiki() {
 
   useEffect(() => {
     fetchWikiData();
-  }, []);
+  }, [pageTitle]);
 
   if (isLoading) return <h1>Loading...</h1>;
 
@@ -55,7 +58,7 @@ export default function Wiki() {
         <p className="mb-4 pt-1 text-right text-sm mobile:text-xs dark:text-zinc-300">
           최근 수정 유저: {getLastUpdateUser(wikiData.writer)}
         </p>
-        {/* <TOC markdownText={wikiData.result?.contents} /> */}
+        <TOC markdownText={wikiData.result.contents} />
         <MarkdownToHTML>{wikiData.result.contents}</MarkdownToHTML>
       </div>
     </div>

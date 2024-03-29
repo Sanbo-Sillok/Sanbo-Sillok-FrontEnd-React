@@ -7,7 +7,7 @@ export default function MenuButton({ handleToggle }: MenuButtonProps) {
     <button
       type="button"
       onClick={handleToggle}
-      className="flex h-10 w-10 flex-col justify-center rounded-md p-2 text-gray-200 transition-all duration-300 hover:bg-base-200"
+      className="flex h-10 w-10 flex-col justify-center rounded-md p-2 text-gray-200 transition-all duration-300 hover:bg-base-600 hover:bg-opacity-10"
       title="mobile-menu"
       aria-label="menuButton"
     >

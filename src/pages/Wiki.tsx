@@ -4,7 +4,7 @@ import useAuthAxios from '../hooks/useAuthAxios';
 import { WikiData } from '../types/wiki';
 import MarkdownToHTML from '../components/MarkdownToHTML';
 import { getLastUpdateTime } from '../utils/getLastUpdateTime';
-import getLastUpdateUser from '../utils/getLastUpdateUser';
+import { getLastUpdateUser } from '../utils/getLastUpdateUser';
 import TOC from '../components/TOC';
 
 export default function Wiki() {

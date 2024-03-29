@@ -21,5 +21,6 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/exhaustive-deps': 'off',
     'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
   },
 };

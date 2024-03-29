@@ -1,4 +1,4 @@
-import useAuthStore from '../stores/authStore';
+import useAuthStore from '@/stores/authStore';
 
 export default function useSetToken() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);

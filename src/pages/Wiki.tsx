@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import useAuthAxios from '../hooks/useAuthAxios';
-import { WikiData } from '../types/wiki';
-import MarkdownToHTML from '../components/MarkdownToHTML';
-import { getLastUpdateTime } from '../utils/getLastUpdateTime';
-import { getLastUpdateUser } from '../utils/getLastUpdateUser';
-import TOC from '../components/TOC';
+import MarkdownToHTML from '@/components/MarkdownToHTML';
+import TOC from '@/components/TOC';
+import useAuthAxios from '@/hooks/useAuthAxios';
+import { WikiData } from '@/types/wiki';
+import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
+import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
 
 export default function Wiki() {
   const { pageTitle } = useParams();

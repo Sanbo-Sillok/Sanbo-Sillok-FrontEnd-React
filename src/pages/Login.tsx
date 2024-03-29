@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
-import useAuthAxios from '../hooks/useAuthAxios';
-import { LoginResponse } from '../types/api';
-import useSetToken from '../hooks/useSetToken';
-import { REFRESH_TOKEN } from '../constants/auth';
+import { REFRESH_TOKEN } from '@/constants/auth';
+import useAuthAxios from '@/hooks/useAuthAxios';
+import useSetToken from '@/hooks/useSetToken';
+import { LoginResponse } from '@/types/api';
 
 interface LoginFormData extends FormData {
   get(name: 'username' | 'password'): string;

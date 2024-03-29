@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import useSetToken from './useSetToken';
 import useToken from './useToken';
-import { REFRESH_TOKEN } from '../constants/auth';
-import { RefreshResponse } from '../types/api';
+import useSetToken from './useSetToken';
+import { REFRESH_TOKEN } from '@/constants/auth';
+import { RefreshResponse } from '@/types/api';
 
 function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).response !== undefined;

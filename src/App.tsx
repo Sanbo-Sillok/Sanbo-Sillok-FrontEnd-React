@@ -1,9 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Wiki from './pages/Wiki';
-import Home from './pages/Home';
 import LayoutWithNav from './pages/layouts/LayoutWithNav';
-import Login from './pages/Login';
+import Home from './pages/Home';
+import Wiki from './pages/Wiki';
 import LayoutWithoutNav from './pages/layouts/LayoutWithoutNav';
+import Login from './pages/Login';
 
 export default function App() {
   const router = createBrowserRouter([

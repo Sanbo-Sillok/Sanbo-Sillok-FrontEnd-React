@@ -18,7 +18,21 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Path Alias */
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@/components": ["components/*"],
+      "@/constants": ["constants/*"],
+      "@/hooks": ["hooks/*"],
+      "@/pages": ["pages/*"],
+      "@/stores": ["stores/*"],
+      "@/styles": ["styles/*"],
+      "@/types": ["types/*"],
+      "@/utils": ["utils/*"]
+    }
   },
   "include": [".eslintrc.cjs", "src"],
   "references": [{ "path": "./tsconfig.node.json" }]

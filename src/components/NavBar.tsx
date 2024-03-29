@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
+import useWindowScroll from '@/hooks/useWindowScroll';
 import MenuButton from './MenuButton';
-import useWindowScroll from '../hooks/useWindowScroll';
 
 export default function NavBar() {
   const { isScrollDown } = useWindowScroll();

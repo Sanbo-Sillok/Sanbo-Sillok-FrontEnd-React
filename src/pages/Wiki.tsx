@@ -6,6 +6,7 @@ import useAuthAxios from '@/hooks/useAuthAxios';
 import { WikiData } from '@/types/wiki';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
+import SkeletonLoading from '@/components/SkeletonLoading';
 
 export default function Wiki() {
   const { pageTitle } = useParams();
@@ -28,7 +29,7 @@ export default function Wiki() {
     fetchWikiData();
   }, [pageTitle]);
 
-  if (isLoading) return <h1>Loading...</h1>;
+  if (isLoading) return <SkeletonLoading />;
 
   if (!wikiData)
     return (

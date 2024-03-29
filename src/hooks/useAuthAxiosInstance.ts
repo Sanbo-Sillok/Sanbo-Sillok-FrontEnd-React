@@ -9,7 +9,7 @@ function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).response !== undefined;
 }
 
-export default function useAuthAxios() {
+export default function useAuthAxiosInstance() {
   const navigate = useNavigate();
 
   const { accessToken } = useToken();

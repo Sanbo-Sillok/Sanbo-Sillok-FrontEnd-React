@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { REFRESH_TOKEN } from '@/constants/auth';
-import useAuthAxios from '@/hooks/useAuthAxios';
+import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/useSetToken';
 import { LoginResponse } from '@/types/api';
 
@@ -9,7 +9,7 @@ interface LoginFormData extends FormData {
 }
 
 export default function Login() {
-  const authAxios = useAuthAxios();
+  const authAxios = useAuthAxiosInstance();
   const { setAccessToken } = useSetToken();
   const navigate = useNavigate();
 

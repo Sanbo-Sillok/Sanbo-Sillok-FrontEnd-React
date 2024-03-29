@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import useWindowScroll from '@/hooks/useWindowScroll';
 import MenuButton from './MenuButton';
+import SearchBar from './SearchBar';
 
 export default function NavBar() {
   const { isScrollDown } = useWindowScroll();
@@ -12,9 +13,7 @@ export default function NavBar() {
           <img src="/favicon.ico" alt="Sanbo-Sillok" />
         </Link>
         <div className="flex h-full items-center justify-center gap-4">
-          <form className="h-full">
-            <input className="h-full w-full rounded-full pl-2 focus:outline-none" type="text" placeholder="Search" name="search" />
-          </form>
+          <SearchBar />
           <MenuButton handleToggle={() => {}} />
         </div>
       </div>

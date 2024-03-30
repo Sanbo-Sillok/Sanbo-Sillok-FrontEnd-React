@@ -2,6 +2,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
+import { Link } from 'react-router-dom';
 
 export default function MarkdownToHTML({ children }: { children: string }) {
   return (
@@ -35,7 +36,11 @@ export default function MarkdownToHTML({ children }: { children: string }) {
             {children}
           </h3>
         ),
-        a: ({ node, ...props }) => <a className="text-sanbo-blue" {...props} />,
+        a: ({ node, children, ...props }) => (
+          <Link to={props.href || ''} className="text-sanbo-blue" {...props}>
+            {children}
+          </Link>
+        ),
         p: ({ node, ...props }) => <p className="mb-5 mt-1 dark:text-zinc-300" {...props} />,
         li: ({ node, ...props }) => <li className="mb-2 mt-2 dark:text-zinc-300 [&>p]:mb-1" {...props} />,
         ul: ({ node, ...props }) => <ul className="mb-1 ml-5 mt-1 list-disc dark:text-zinc-300" {...props} />,

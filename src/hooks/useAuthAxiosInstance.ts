@@ -26,6 +26,8 @@ export default function useAuthAxiosInstance() {
     try {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
+      if (!refreshToken) navigate('/login');
+
       const refreshResponse = await axios.post<RefreshResponse>(`${import.meta.env.VITE_API_DOMAIN}/auth/token/refresh/`, {
         refresh: refreshToken,
       });

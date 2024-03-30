@@ -31,7 +31,8 @@
       "@/stores": ["stores/*"],
       "@/styles": ["styles/*"],
       "@/types": ["types/*"],
-      "@/utils": ["utils/*"]
+      "@/utils": ["utils/*"],
+      "@/assets": ["assets/*"]
     }
   },
   "include": [".eslintrc.cjs", "src"],

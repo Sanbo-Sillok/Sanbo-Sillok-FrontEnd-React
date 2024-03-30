@@ -14,7 +14,13 @@ export default function NavBar() {
         </Link>
         <div className="flex h-full items-center justify-center gap-4">
           <SearchBar />
-          <ProfileSVG />
+          <button
+            type="button"
+            className="flex h-10 w-10 items-center justify-center rounded-lg duration-200 hover:bg-base-600 hover:bg-opacity-30"
+            aria-label="my-info"
+          >
+            <ProfileSVG />
+          </button>
         </div>
       </div>
     </header>

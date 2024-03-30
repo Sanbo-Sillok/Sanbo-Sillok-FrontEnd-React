@@ -2,7 +2,7 @@ import { SVGProps } from '@/types/types';
 
 export default function ProfileSVG({ width, height, color }: SVGProps) {
   return (
-    <svg width={width || 40} height={height || 40} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={width || 32} height={height || 32} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clipPath="url(#clip0_15_82)">
         <g filter="url(#filter0_d_15_82)">
           <path

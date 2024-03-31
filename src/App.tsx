@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Wiki from './pages/Wiki';
 import LayoutWithoutNav from './pages/layouts/LayoutWithoutNav';
 import Login from './pages/Login';
+import Edit from './pages/Edit';
 
 export default function App() {
   const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export default function App() {
         {
           path: '/login',
           element: <Login />,
+        },
+        {
+          path: '/edit/:pageTitle',
+          element: <Edit />,
         },
       ],
     },

@@ -18,7 +18,7 @@ export default function Wiki() {
       <>
         <p className="mt-6 dark:text-zinc-300">페이지가 존재하지 않습니다.</p>
         <br />
-        <Link to={`edit/${pageTitle}`} className="text-sanbo-blue">
+        <Link to={`/edit/${pageTitle}`} className="text-sanbo-blue">
           [페이지 생성하기]
         </Link>
       </>
@@ -29,7 +29,7 @@ export default function Wiki() {
       <div className="flex items-end justify-between border-b pb-1">
         <h1 className="pb-6 text-4xl font-semibold dark:text-zinc-300">{decodeURI(data.result.title)}</h1>
         {data.result.status === 'ACTIVE' ? (
-          <Link to={`edit/${pageTitle}`} className="text-sm text-sanbo-blue">
+          <Link to={`/edit/${pageTitle}`} className="text-sm text-sanbo-blue">
             [편집]
           </Link>
         ) : null}

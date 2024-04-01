@@ -1,33 +1,25 @@
 import { Link, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
-import TOC from '@/components/TOC';
+import TOC from '@/components/Wiki/TOC';
 import { WikiData } from '@/types/wiki';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
-import SkeletonLoading from '@/components/SkeletonLoading';
+import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 import useGetAxios from '@/hooks/useGetAxios';
+import WikiNotFound from '@/components/Wiki/WikiNotFound';
+import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
 
 export default function Wiki() {
   const { pageTitle } = useParams();
   const { data, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
 
   if (isLoading) return <SkeletonLoading />;
-
-  if (!data)
-    return (
-      <>
-        <p className="mt-6 dark:text-zinc-300">페이지가 존재하지 않습니다.</p>
-        <br />
-        <Link to={`/edit/${pageTitle}`} className="text-sanbo-blue">
-          [페이지 생성하기]
-        </Link>
-      </>
-    );
+  if (!data) return <WikiNotFound pageTitle={pageTitle as string} />;
 
   return (
     <div className="p-10">
       <div className="flex items-end justify-between border-b pb-1">
-        <h1 className="pb-6 text-4xl font-semibold dark:text-zinc-300">{decodeURI(data.result.title)}</h1>
+        <WikiPageTitle>{decodeURI(data.result.title)}</WikiPageTitle>
         {data.result.status === 'ACTIVE' ? (
           <Link to={`/edit/${pageTitle}`} className="text-sm text-sanbo-blue">
             [편집]

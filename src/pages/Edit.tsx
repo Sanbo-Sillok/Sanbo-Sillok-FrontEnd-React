@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
-import SkeletonLoading from '@/components/SkeletonLoading';
+import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 import useGetAxios from '@/hooks/useGetAxios';
 import { WikiData } from '@/types/wiki';
 import EditTitle from '@/components/Edit/EditTitle';

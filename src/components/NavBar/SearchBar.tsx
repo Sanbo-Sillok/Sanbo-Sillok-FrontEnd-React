@@ -18,7 +18,7 @@ export default function SearchBar() {
 
   return (
     <form className="h-full" onSubmit={handleSearch}>
-      <input className="h-full w-full rounded-full pl-2 focus:outline-none" type="text" placeholder="Search" name={SEARCH} />
+      <input className="h-full w-full rounded-full pl-4 focus:outline-none" type="text" placeholder="Search" name={SEARCH} />
     </form>
   );
 }

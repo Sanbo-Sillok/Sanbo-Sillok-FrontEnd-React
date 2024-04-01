@@ -1,24 +1,32 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import SkeletonLoading from '@/components/SkeletonLoading';
 import useGetAxios from '@/hooks/useGetAxios';
 import { WikiData } from '@/types/wiki';
-import EditTitle from '@/components/EditTitle';
-import ImageUploadButton from '@/components/ImageUploadButton';
-import SaveButton from '@/components/SaveButton';
+import EditTitle from '@/components/Edit/EditTitle';
+import ImageUploadButton from '@/components/Edit/ImageUploadButton';
+import SaveButton from '@/components/Edit/SaveButton';
+import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
+import { WikiPatchBody, WikiPostBody } from '@/types/api';
 
 export default function Edit() {
   const { pageTitle } = useParams();
-  const { data, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
+
+  const navigate = useNavigate();
+  const authAxios = useAuthAxiosInstance();
+
+  const { data: prevWikiData, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
+
   const [contents, setContents] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      const prevContents = data.result.contents;
+    if (prevWikiData) {
+      const prevContents = prevWikiData.result.contents;
       setContents(prevContents.slice(0, prevContents.length - 2));
     }
-  }, [data]);
+  }, [prevWikiData]);
 
   if (isLoading) return <SkeletonLoading />;
 
@@ -26,14 +34,43 @@ export default function Edit() {
     setContents(event.target.value);
   };
 
+  // TODO: 로직 추가
+  const onDropImage = () => {};
+
+  // TODO: 로직 추가
+  const handleUploadImage = () => {};
+
+  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsSaving(true);
+    event.preventDefault();
+
+    // FIXME: PATCH 안됨
+    const url = prevWikiData ? `/wiki/${pageTitle}` : '/wiki/';
+    const method = prevWikiData ? 'PATCH' : 'POST';
+    const newContents = `${contents}\n\n`;
+    const data = prevWikiData
+      ? ({
+          contents: newContents,
+        } as WikiPatchBody)
+      : ({
+          title: pageTitle as string,
+          contents: newContents,
+        } as WikiPostBody);
+
+    const response = await authAxios({ method, url, data });
+
+    if (response.data.status === 200) navigate(`/wiki/${pageTitle}`);
+    setIsSaving(false);
+  };
+
   return (
     <section className="flex h-full bg-white p-5">
       <div className="flex h-full w-1/2 flex-col pr-4 mobile:w-full">
-        <EditTitle>{`${pageTitle} ${data ? '' : '(새 페이지 생성)'}`}</EditTitle>
+        <EditTitle>{`${pageTitle} ${prevWikiData ? '' : '(새 페이지 생성)'}`}</EditTitle>
         <div className="h-1 w-10 bg-base-700 dark:bg-zinc-600" />
-        <form onSubmit={() => {}} className="flex h-full flex-col">
+        <form onSubmit={handleSave} className="flex h-full flex-col">
           <textarea
-            onDrop={() => {}}
+            onDrop={onDropImage}
             className="mb-1 mt-5 h-full resize-none pl-1 focus:outline-none dark:bg-base-700 dark:text-base-200"
             onChange={handleChangeContents}
             name="contents"
@@ -43,8 +80,8 @@ export default function Edit() {
             value={contents}
           />
           <div className="flex items-center justify-end border-t p-3">
-            <ImageUploadButton handleUploadImage={() => alert('이미지 올림')} />
-            <SaveButton isLoading={isLoading} />
+            <ImageUploadButton handleUploadImage={handleUploadImage} />
+            <SaveButton disabled={isSaving} />
           </div>
         </form>
       </div>

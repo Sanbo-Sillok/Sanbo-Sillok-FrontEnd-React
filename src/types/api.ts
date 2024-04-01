@@ -12,3 +12,12 @@ export interface LoginResponse {
 export interface RefreshResponse {
   access: string;
 }
+
+export interface WikiPostBody {
+  title: string;
+  contents: string;
+}
+
+export interface WikiPatchBody {
+  contents: string;
+}

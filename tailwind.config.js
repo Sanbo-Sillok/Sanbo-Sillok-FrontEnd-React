@@ -24,10 +24,10 @@ export default {
         950: '#09090b',
       },
     },
-  },
-  screens: {
-    mobile: { max: '767px' },
-    tablet: { max: '1024px' },
+    screens: {
+      mobile: { max: '767px' },
+      tablet: { max: '1024px' },
+    },
   },
   plugins: [],
 };

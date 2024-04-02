@@ -10,6 +10,7 @@ export default {
       transparent: 'transparent',
       white: '#ffffff',
       black: '#000000',
+      test: '#fecaca',
       base: {
         50: '#fafafa',
         100: '#f4f4f5',

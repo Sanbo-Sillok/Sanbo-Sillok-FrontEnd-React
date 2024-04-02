@@ -22,5 +22,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'off',
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
+    'react/require-default-props': 'off',
   },
 };

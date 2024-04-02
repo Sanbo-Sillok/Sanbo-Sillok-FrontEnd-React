@@ -2,27 +2,32 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {
-      fontFamily: {
-        Pretendard: ['Pretendard Variable'],
-      },
-      colors: {
-        'sanbo-blue': '#02A0EA',
-        base: {
-          100: '#F1F5F9',
-          200: '#DDE1E6',
-          300: '#C9CCD3',
-          400: '#B5B8C1',
-          500: '#A1A4AE',
-          600: '#8D909B',
-          700: '#272C33',
-        },
+    fontFamily: {
+      Pretendard: ['Pretendard Variable'],
+    },
+    colors: {
+      'sanbo-blue': '#02A0EA',
+      transparent: 'transparent',
+      white: '#ffffff',
+      black: '#000000',
+      base: {
+        50: '#fafafa',
+        100: '#f4f4f5',
+        200: '#e4e4e7',
+        300: '#d4d4d8',
+        400: '#a1a1aa',
+        500: '#71717a',
+        600: '#52525b',
+        700: '#3f3f46',
+        800: '#27272a',
+        900: '#18181b',
+        950: '#09090b',
       },
     },
-    screens: {
-      mobile: { max: '767px' },
-      tablet: { max: '1024px' },
-    },
+  },
+  screens: {
+    mobile: { max: '767px' },
+    tablet: { max: '1024px' },
   },
   plugins: [],
 };

@@ -26,7 +26,7 @@ export default function ImageUploadButton({ handleUploadImage }: ImageUploadButt
         type="button"
         aria-label="submit-button"
         onClick={onCickImageUpload}
-        className="mr-5 cursor-pointer rounded-full p-2.5 duration-300 hover:bg-base-300 dark:hover:bg-zinc-600"
+        className="mr-5 cursor-pointer rounded-full p-2.5 duration-300 hover:bg-base-300 dark:hover:bg-base-600"
       >
         <ImageSVG />
       </button>

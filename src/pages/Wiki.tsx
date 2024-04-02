@@ -8,6 +8,7 @@ import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 import useGetAxios from '@/hooks/useGetAxios';
 import WikiNotFound from '@/components/Wiki/WikiNotFound';
 import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
+import ScrollTop from '@/components/Wiki/ScrollTop';
 
 export default function Wiki() {
   const { pageTitle } = useParams();
@@ -18,7 +19,7 @@ export default function Wiki() {
 
   return (
     <div className="p-10">
-      <div className="flex items-end justify-between border-b pb-1">
+      <div className="flex items-end justify-between border-b border-base-200 pb-1">
         <WikiPageTitle>{decodeURI(data.result.title)}</WikiPageTitle>
         {data.result.status === 'ACTIVE' ? (
           <Link to={`/edit/${pageTitle}`} className="text-sm text-sanbo-blue">
@@ -27,13 +28,14 @@ export default function Wiki() {
         ) : null}
       </div>
       <div className="text-base">
-        <p className="pt-1 text-right text-sm mobile:text-xs dark:text-zinc-300">
+        <p className="mobile:text-xs pt-1 text-right text-sm dark:text-base-300">
           최근 수정 시각: {getLastUpdateTime(data.result.updated_at)}
         </p>
-        <p className="mb-4 pt-1 text-right text-sm mobile:text-xs dark:text-zinc-300">최근 수정 유저: {getLastUpdateUser(data.writer)}</p>
+        <p className="mobile:text-xs mb-4 pt-1 text-right text-sm dark:text-base-300">최근 수정 유저: {getLastUpdateUser(data.writer)}</p>
         <TOC markdownText={data.result.contents} />
         <MarkdownToHTML>{data.result.contents}</MarkdownToHTML>
       </div>
+      <ScrollTop />
     </div>
   );
 }

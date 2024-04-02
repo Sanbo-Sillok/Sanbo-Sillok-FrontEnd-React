@@ -1,5 +1,5 @@
 .TOC {
-  @apply mt-3 pl-4 text-sm dark:text-zinc-300;
+  @apply mt-3 pl-4 text-sm dark:text-base-300;
 }
 /* depth: 1 */
 .TOC > li {

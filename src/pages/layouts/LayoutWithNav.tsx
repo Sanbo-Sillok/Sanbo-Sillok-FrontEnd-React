@@ -5,8 +5,8 @@ export default function LayoutWithNav() {
   return (
     <>
       <NavBar />
-      <main className="h-full min-h-screen bg-base-100">
-        <section className="m-auto h-full min-h-screen max-w-6xl bg-white pt-16">
+      <main className="min-h-screen">
+        <section className="m-auto h-full min-h-screen max-w-6xl bg-white pt-16 dark:bg-base-800">
           <Outlet />
         </section>
       </main>

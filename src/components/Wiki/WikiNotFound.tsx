@@ -7,7 +7,7 @@ interface WikiNotFoundProps {
 
 export default function WikiNotFound({ pageTitle }: WikiNotFoundProps) {
   return (
-    <div className="p-10">
+    <div className="min-h-screen p-10 dark:bg-base-800">
       <WikiPageTitle>{pageTitle}</WikiPageTitle>
       <p className="mt-6 dark:text-base-200">페이지가 존재하지 않습니다.</p>
       <br />

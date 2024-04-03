@@ -9,6 +9,10 @@ export interface LoginResponse {
   };
 }
 
+export interface LogoutResponse {
+  message: string;
+}
+
 export interface RefreshResponse {
   access: string;
 }

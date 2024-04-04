@@ -23,6 +23,8 @@ export default function Edit() {
 
   useEffect(() => {
     if (prevWikiData) {
+      if (prevWikiData.result.status === 'PROTECTED') navigate('/wiki/산보위키');
+
       const prevContents = prevWikiData.result.contents;
       setContents(prevContents.slice(0, prevContents.length - 2));
     }

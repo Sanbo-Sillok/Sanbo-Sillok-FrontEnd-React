@@ -64,14 +64,14 @@ export default function Edit() {
   };
 
   return (
-    <section className="flex h-full bg-white p-5">
-      <div className="mobile:w-full flex h-full w-1/2 flex-col pr-4">
+    <section className="flex h-full bg-white p-5 dark:bg-base-800">
+      <div className="flex h-full w-1/2 flex-col pr-4 mobile:w-full">
         <EditTitle>{`${pageTitle} ${prevWikiData ? '' : '(새 페이지 생성)'}`}</EditTitle>
         <div className="h-1 w-10 bg-base-700 dark:bg-base-600" />
         <form onSubmit={handleSave} className="flex h-full flex-col">
           <textarea
             onDrop={onDropImage}
-            className="mb-1 mt-5 h-full resize-none pl-1 focus:outline-none dark:bg-base-700 dark:text-base-200"
+            className="mb-1 mt-5 h-full resize-none bg-transparent pl-1 focus:outline-none dark:text-base-200"
             onChange={handleChangeContents}
             name="contents"
             placeholder="이곳에 내용을 입력하세요"
@@ -79,14 +79,14 @@ export default function Edit() {
             onScroll={() => {}}
             value={contents}
           />
-          <div className="flex items-center justify-end border-t p-3">
+          <div className="flex items-center justify-end border-t border-base-500 p-3 dark:border-base-600">
             <ImageUploadButton handleUploadImage={handleUploadImage} />
             <SaveButton disabled={isSaving} />
           </div>
         </form>
       </div>
-      <div className="mobile:hidden h-auto w-[1px] border-[1px]" />
-      <div className="mobile:hidden mt-2 h-full w-1/2 overflow-auto pl-4 pr-4" ref={() => {}}>
+      <div className="h-auto w-[1px] border-[1px] mobile:hidden" />
+      <div className="mt-2 h-full w-1/2 overflow-auto pl-4 pr-4 mobile:hidden" ref={() => {}}>
         <EditTitle>{pageTitle}</EditTitle>
         <div>
           <MarkdownToHTML>{contents}</MarkdownToHTML>

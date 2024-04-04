@@ -9,6 +9,7 @@ import ImageUploadButton from '@/components/Edit/ImageUploadButton';
 import SaveButton from '@/components/Edit/SaveButton';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import { WikiPatchBody, WikiPostBody } from '@/types/api';
+import BackButton from '@/components/Edit/BackButton';
 
 export default function Edit() {
   const { pageTitle } = useParams();
@@ -20,6 +21,8 @@ export default function Edit() {
 
   const [contents, setContents] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+
+  // TODO: preview 컴포넌트 ref 연결로 스크롤 동기화
 
   useEffect(() => {
     if (prevWikiData) {
@@ -81,8 +84,9 @@ export default function Edit() {
             onScroll={() => {}}
             value={contents}
           />
-          <div className="flex items-center justify-end border-t border-base-500 p-3 dark:border-base-600">
+          <div className="flex items-center justify-end gap-2 border-t border-base-500 p-3 dark:border-base-600">
             <ImageUploadButton handleUploadImage={handleUploadImage} />
+            <BackButton />
             <SaveButton disabled={isSaving} />
           </div>
         </form>

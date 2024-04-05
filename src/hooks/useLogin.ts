@@ -34,7 +34,7 @@ export default function useLogin() {
 
       if (response.status === 200) navigate('/');
     } catch (err) {
-      alert('잠시 후 다시 시도해주세요');
+      alert('잠시후 다시 시도해주세요');
     } finally {
       setIsLoading(false);
     }

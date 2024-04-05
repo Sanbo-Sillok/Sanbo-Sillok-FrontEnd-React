@@ -7,20 +7,17 @@ import { WikiData } from '@/types/wiki';
 import EditTitle from '@/components/Edit/EditTitle';
 import ImageUploadButton from '@/components/Edit/ImageUploadButton';
 import SaveButton from '@/components/Edit/SaveButton';
-import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { WikiPatchBody, WikiPostBody } from '@/types/api';
 import BackButton from '@/components/Edit/BackButton';
+import useSaveWiki from '@/hooks/useSaveWiki';
 
 export default function Edit() {
   const { pageTitle } = useParams();
-
   const navigate = useNavigate();
-  const authAxios = useAuthAxiosInstance();
 
   const { data: prevWikiData, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
+  const { isLoading: isSaving, saveWiki } = useSaveWiki();
 
   const [contents, setContents] = useState('');
-  const [isSaving, setIsSaving] = useState(false);
 
   // TODO: preview 컴포넌트 ref 연결로 스크롤 동기화
 
@@ -46,26 +43,8 @@ export default function Edit() {
   const handleUploadImage = () => {};
 
   const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
-    setIsSaving(true);
     event.preventDefault();
-
-    // FIXME: PATCH 안됨
-    const url = prevWikiData ? `/wiki/${pageTitle}` : '/wiki/';
-    const method = prevWikiData ? 'PATCH' : 'POST';
-    const newContents = `${contents}\n\n`;
-    const data = prevWikiData
-      ? ({
-          contents: newContents,
-        } as WikiPatchBody)
-      : ({
-          title: pageTitle as string,
-          contents: newContents,
-        } as WikiPostBody);
-
-    const response = await authAxios({ method, url, data });
-
-    if (response.data.status === 200) navigate(`/wiki/${pageTitle}`);
-    setIsSaving(false);
+    await saveWiki({ isEdit: !!prevWikiData, pageTitle: pageTitle as string, contents });
   };
 
   return (

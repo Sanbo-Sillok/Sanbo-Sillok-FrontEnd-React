@@ -1,0 +1,19 @@
+.footnotes {
+  @apply mt-32 border-t-2;
+}
+
+.footnotes > h2 {
+  @apply hidden;
+}
+
+.footnotes > ol {
+  @apply text-sm;
+}
+
+.footnotes a {
+  @apply invisible;
+}
+
+.footnotes a:before {
+  @apply visible text-sanbo-blue content-['[본문]'];
+}

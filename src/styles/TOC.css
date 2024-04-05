@@ -1,0 +1,30 @@
+.TOC {
+  @apply mt-3 pl-4 text-sm dark:text-base-300;
+}
+/* depth: 1 */
+.TOC > li {
+  @apply list-disc;
+}
+.TOC > li > a {
+  @apply text-sanbo-blue;
+}
+/* depth: 2 */
+.TOC > ul {
+  @apply pl-5;
+}
+.TOC > ul > li {
+  @apply list-[circle];
+}
+.TOC > ul > li > a {
+  @apply text-sanbo-blue;
+}
+/* Depth: 3 */
+.TOC > ul > ul {
+  @apply pl-5;
+}
+.TOC > ul > ul > li {
+  @apply list-[square];
+}
+.TOC > ul > ul > li > a {
+  @apply text-sanbo-blue;
+}

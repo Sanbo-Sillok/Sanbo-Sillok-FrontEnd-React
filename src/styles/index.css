@@ -1,3 +1,32 @@
+@import './TOC.css';
+@import './markdown.css';
+@import './footer.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  @apply font-Pretendard;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-base-100 dark:bg-base-800;
+}
+
+body::-webkit-scrollbar {
+  @apply w-2; /* 스크롤바의 너비 */
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply h-[30%]; /* 스크롤바의 길이 */
+  @apply bg-base-700; /* 스크롤바의 색상 */
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-transparent; /*스크롤바 뒷 배경 색상*/
+}

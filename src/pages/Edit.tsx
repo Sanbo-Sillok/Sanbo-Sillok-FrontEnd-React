@@ -48,8 +48,8 @@ export default function Edit() {
   };
 
   return (
-    <section className="flex h-full bg-white p-5 dark:bg-base-800">
-      <div className="flex h-full w-1/2 flex-col pr-4 mobile:w-full">
+    <section className="flex h-full gap-4 bg-white p-5 dark:bg-base-800">
+      <div className="flex h-full w-1/2 flex-col mobile:w-full">
         <EditTitle>{`${pageTitle} ${prevWikiData ? '' : '(새 페이지 생성)'}`}</EditTitle>
         <div className="h-1 w-10 bg-base-700 dark:bg-base-600" />
         <form onSubmit={handleSave} className="flex h-full flex-col">
@@ -70,8 +70,7 @@ export default function Edit() {
           </div>
         </form>
       </div>
-      <div className="h-auto w-[1px] border-[1px] mobile:hidden" />
-      <div className="mt-2 h-full w-1/2 overflow-auto pl-4 pr-4 mobile:hidden" ref={() => {}}>
+      <div className="my-2 h-auto w-1/2 overflow-auto border-l border-base-500 pl-4 pr-4 mobile:hidden dark:border-base-600" ref={() => {}}>
         <EditTitle>{pageTitle}</EditTitle>
         <div>
           <MarkdownToHTML>{contents}</MarkdownToHTML>

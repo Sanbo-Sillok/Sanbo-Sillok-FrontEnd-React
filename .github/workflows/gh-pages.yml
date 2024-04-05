@@ -1,12 +1,12 @@
-name: CI
+name: gh-pages preview
 
 on:
-  pull_request:
+  push:
     branches:
       - dev
 
 jobs:
-  CI:
+  gh-pages-preview:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
@@ -30,3 +30,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Preview Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist

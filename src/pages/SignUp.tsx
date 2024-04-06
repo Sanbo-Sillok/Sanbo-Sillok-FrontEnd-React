@@ -1,4 +1,4 @@
-import RightChevronSVG from '@/assets/RightChevronSVG';
+import ShowPolicyButton from '@/components/Signup/ShowPolicyButton';
 
 export default function SignUp() {
   return (
@@ -29,9 +29,7 @@ export default function SignUp() {
               <input id="agreement" name="agreement" className="scale-150" type="checkbox" />
               (필수) 산보실록 이용약관 동의
             </label>
-            <button type="button" className="p-2" aria-label="show-detail">
-              <RightChevronSVG width={12} height={12} />
-            </button>
+            <ShowPolicyButton />
           </div>
           <button type="button" className="h-10 w-full rounded bg-base-200 p-2">
             회원가입

@@ -56,5 +56,6 @@
       "eslint --cache --cache-location ./.cache/.eslintcache"
     ],
     "*.{json,css}": "prettier --cache --write"
-  }
+  },
+  "homepage": "https://sanbo-sillok.github.io/Sanbo-Sillok-FrontEnd-React/"
 }

@@ -57,5 +57,5 @@
     ],
     "*.{json,css}": "prettier --cache --write"
   },
-  "homepage": "https://sanbo-sillok.github.io/Sanbo-Sillok-FrontEnd-React/"
+  "homepage": "."
 }

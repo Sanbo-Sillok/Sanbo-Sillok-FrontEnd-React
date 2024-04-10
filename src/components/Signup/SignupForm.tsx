@@ -1,34 +1,15 @@
-import { useEffect, useState } from 'react';
 import TextInput from '../common/TextInput';
-import useAfterMountEffect from '@/hooks/useAfterMountEffect';
 import WarningText from './WarningText';
 import ShowPolicyButton from './ShowPolicyButton';
 import SignupButton from './SignupButton';
-import { passwordReg } from '@/constants/auth';
+import useSetSignupFormValue from '@/hooks/SignupForm/useSetSignupFormValue';
+import useSignup from '@/hooks/SignupForm/useSignup';
+import useGetSignupFormValue from '@/hooks/SignupForm/useGetSignupFormValue';
 
 export default function SignupForm() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [isSame, setIsSame] = useState(true);
-  const [isValidPassword, setIsValidPassword] = useState(true);
-  const [policyAgreement, setPolicyAgreement] = useState(false);
-  const [signupReady, setSignupReady] = useState(false);
-
-  useAfterMountEffect(() => {
-    if (password !== passwordCheck) setIsSame(false);
-    else setIsSame(true);
-  }, [password, passwordCheck]);
-
-  useAfterMountEffect(() => {
-    if (passwordReg.test(password)) setIsValidPassword(true);
-    else setIsValidPassword(false);
-  }, [password]);
-
-  useEffect(() => {
-    if (!!username && !!password && isSame && isValidPassword && policyAgreement) setSignupReady(true);
-    else setSignupReady(false);
-  }, [username, password, isSame, isValidPassword, policyAgreement]);
+  const { signupReady } = useSignup();
+  const { username, password, passwordCheck, isSame, isValidPassword, policyAgreement } = useGetSignupFormValue();
+  const { setUsername, setPassword, setPasswordCheck, setPolicyAgreement } = useSetSignupFormValue();
 
   return (
     <form onSubmit={() => {}} className="flex flex-col items-center">

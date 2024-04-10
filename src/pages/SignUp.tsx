@@ -4,6 +4,7 @@ import SignupButton from '@/components/Signup/SignupButton';
 import WarningText from '@/components/Signup/WarningText';
 import { passwordReg } from '@/constants/auth';
 import useAfterMountEffect from '@/hooks/useAfterMountEffect';
+import TextInput from '@/components/common/TextInput';
 
 export default function SignUp() {
   const [username, setUsername] = useState('');
@@ -34,16 +35,8 @@ export default function SignUp() {
       <img src="/favicon.ico" alt="산보실록 아이콘" width={100} height={100} />
       <form onSubmit={() => {}} className="flex flex-col items-center">
         <div className="flex flex-col gap-1">
-          <input
-            className="rounded-md border border-base-200 p-2 focus:outline-none dark:border-base-400 dark:bg-base-600 dark:text-base-200"
-            placeholder="사용자 이름"
-            type="text"
-            name="username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-          <input
-            className="rounded-md border border-base-200 p-2 focus:outline-none dark:border-base-400 dark:bg-base-600 dark:text-base-200"
+          <TextInput placeholder="사용자 이름" name="username" value={username} onChange={(event) => setUsername(event.target.value)} />
+          <TextInput
             placeholder="패스워드"
             type="password"
             name="password"
@@ -51,8 +44,7 @@ export default function SignUp() {
             onChange={(event) => setPassword(event.target.value)}
           />
           {!isValidPassword && <WarningText>8자리 이상의 대문자, 소문자, 특수문자, 숫자로 구성해주세요.</WarningText>}
-          <input
-            className="rounded-md border border-base-200 p-2 focus:outline-none dark:border-base-400 dark:bg-base-600 dark:text-base-200"
+          <TextInput
             placeholder="패스워드 확인"
             type="password"
             name="password"

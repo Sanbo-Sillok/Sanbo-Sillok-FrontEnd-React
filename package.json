@@ -57,6 +57,5 @@
       "eslint --cache --cache-location ./.cache/.eslintcache"
     ],
     "*.{json,css}": "prettier --cache --write"
-  },
-  "homepage": "."
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ProfileSVG from '@/assets/ProfileSVG';
-import useLogout from '@/hooks/useLogout';
+import useLogoutMutation from '@/apis/mutations/useLogoutMutation';
 
 interface OptionButtonProps {
   showOption?: boolean;
@@ -8,7 +8,7 @@ interface OptionButtonProps {
 
 export default function OptionButton({ showOption = true }: OptionButtonProps) {
   const [openOption, setOpenOption] = useState(false);
-  const { isLoading, logout } = useLogout();
+  const { mutate: logout, isPending } = useLogoutMutation();
   const optionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function OptionButton({ showOption = true }: OptionButtonProps) {
       </button>
       {openOption && showOption && (
         <div className="absolute right-1 top-14 flex min-w-max flex-col items-center justify-center gap-4 rounded-xl bg-base-200 p-2 shadow-lg dark:bg-base-600">
-          <button type="button" className="p-2 dark:text-base-200" aria-label="logout" onClick={logout} disabled={isLoading}>
+          <button type="button" className="p-2 dark:text-base-200" aria-label="logout" onClick={() => logout()} disabled={isPending}>
             로그아웃
           </button>
         </div>

@@ -1,22 +1,14 @@
-import { useEffect } from 'react';
-import useAfterMountEffect from '../useAfterMountEffect';
-import useGetSignupFormValue from './useGetSignupFormValue';
-import useSetSignupFormValue from './useSetSignupFormValue';
-import { passwordReg } from '@/constants/auth';
+import { useEffect, useState } from 'react';
+import useUsername from './useUsername';
+import usePassword from './usePassword';
+import usePolicyAgreement from './usePolicyAgreement';
 
 export default function useSignup() {
-  const { username, password, passwordCheck, isSame, isValidPassword, policyAgreement, signupReady } = useGetSignupFormValue();
-  const { setIsSame, setIsValidPassword, setSignupReady } = useSetSignupFormValue();
+  const [signupReady, setSignupReady] = useState(false);
 
-  useAfterMountEffect(() => {
-    if (password !== passwordCheck) setIsSame(false);
-    else setIsSame(true);
-  }, [password, passwordCheck]);
-
-  useAfterMountEffect(() => {
-    if (passwordReg.test(password)) setIsValidPassword(true);
-    else setIsValidPassword(false);
-  }, [password]);
+  const { username } = useUsername();
+  const { password, isSame, isValidPassword } = usePassword();
+  const { policyAgreement } = usePolicyAgreement();
 
   useEffect(() => {
     if (!!username && !!password && isSame && isValidPassword && policyAgreement) setSignupReady(true);

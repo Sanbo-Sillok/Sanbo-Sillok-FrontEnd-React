@@ -2,19 +2,18 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
-import useGetAxios from '@/hooks/useGetAxios';
-import { WikiData } from '@/types/wiki';
 import EditTitle from '@/components/Edit/EditTitle';
 import ImageUploadButton from '@/components/Edit/ImageUploadButton';
 import SaveButton from '@/components/Edit/SaveButton';
 import BackButton from '@/components/Edit/BackButton';
 import useSaveWiki from '@/hooks/useSaveWiki';
+import useWikiQuery from '@/apis/queries/useWikiQuery';
 
 export default function Edit() {
   const { pageTitle } = useParams();
   const navigate = useNavigate();
 
-  const { data: prevWikiData, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
+  const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
   const { isLoading: isSaving, saveWiki } = useSaveWiki();
 
   const [contents, setContents] = useState('');

@@ -2,7 +2,7 @@ import LoginButton from './LoginButton';
 
 interface LoginFormProps {
   isLoading: boolean;
-  handleLogin: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  handleLogin: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export default function LoginForm({ isLoading, handleLogin }: LoginFormProps) {

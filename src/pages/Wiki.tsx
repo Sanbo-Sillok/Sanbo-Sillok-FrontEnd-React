@@ -1,18 +1,17 @@
 import { Link, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import TOC from '@/components/Wiki/TOC';
-import { WikiData } from '@/types/wiki';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
-import useGetAxios from '@/hooks/useGetAxios';
 import WikiNotFound from '@/components/Wiki/WikiNotFound';
 import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
 import ScrollTop from '@/components/Wiki/ScrollTop';
+import useWikiQuery from '@/apis/queries/useWikiQuery';
 
 export default function Wiki() {
   const { pageTitle } = useParams();
-  const { data, isLoading } = useGetAxios<WikiData>(`/wiki/${pageTitle}`);
+  const { data, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
 
   if (isLoading) return <SkeletonLoading />;
   if (!data) return <WikiNotFound pageTitle={pageTitle as string} />;

@@ -24,6 +24,7 @@ jobs:
         run: |
           touch .env
           echo "VITE_API_DOMAIN=${{secrets.VITE_API_DOMAIN}}" >> .env
+          echo "VITE_PUBLIC_URL=${{secrets.VITE_PUBLIC_URL}}" >> .env
 
       - name: Lint
         run: npm run lint

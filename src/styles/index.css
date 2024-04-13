@@ -18,15 +18,15 @@ body {
   @apply bg-base-100 dark:bg-base-800;
 }
 
-body::-webkit-scrollbar {
-  @apply w-2; /* 스크롤바의 너비 */
+.scroll-custom::-webkit-scrollbar {
+  @apply h-2 w-2; /* 스크롤바의 너비 */
 }
 
-body::-webkit-scrollbar-thumb {
+.scroll-custom::-webkit-scrollbar-thumb {
   @apply h-[30%]; /* 스크롤바의 길이 */
-  @apply bg-base-700; /* 스크롤바의 색상 */
+  @apply bg-base-800; /* 스크롤바의 색상 */
 }
 
-body::-webkit-scrollbar-track {
+.scroll-custom::-webkit-scrollbar-track {
   @apply bg-transparent; /*스크롤바 뒷 배경 색상*/
 }

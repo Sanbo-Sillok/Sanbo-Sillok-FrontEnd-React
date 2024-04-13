@@ -46,7 +46,10 @@ export default function MarkdownToHTML({ children }: { children: string }) {
         ul: ({ node, ...props }) => <ul className="mb-1 ml-5 mt-1 list-disc dark:text-base-200" {...props} />,
         ol: ({ node, ...props }) => <ol className="mb-1 ml-5 mt-1 list-decimal dark:text-base-200" {...props} />,
         pre: ({ node, ...props }) => (
-          <pre className="block w-full rounded-lg bg-base-200 p-8 text-sm dark:bg-base-600 dark:text-base-200" {...props} />
+          <pre
+            className="scroll-custom block w-full overflow-auto rounded-lg bg-base-200 p-8 text-sm dark:bg-base-600 dark:text-base-200"
+            {...props}
+          />
         ),
         code: ({ node, ...props }) => (
           <code className="rounded bg-base-200 p-1 pb-0.5 pt-0.5 text-sm dark:bg-base-600 dark:text-base-200" {...props} />

@@ -54,7 +54,7 @@ export default function Edit() {
         <form onSubmit={handleSave} className="flex h-full flex-col">
           <textarea
             onDrop={onDropImage}
-            className="mb-1 mt-5 h-full resize-none bg-transparent pl-1 focus:outline-none dark:text-base-200"
+            className="scroll-custom mb-1 mt-5 h-full resize-none bg-transparent pl-1 focus:outline-none dark:text-base-200"
             onChange={handleChangeContents}
             name="contents"
             placeholder="이곳에 내용을 입력하세요"
@@ -69,7 +69,10 @@ export default function Edit() {
           </div>
         </form>
       </div>
-      <div className="my-2 h-auto w-1/2 overflow-auto border-l border-base-500 pl-4 pr-4 mobile:hidden dark:border-base-600" ref={() => {}}>
+      <div
+        className="scroll-custom my-2 h-auto w-1/2 overflow-auto border-l border-base-500 pl-4 pr-4 mobile:hidden dark:border-base-600"
+        ref={() => {}}
+      >
         <EditTitle>{pageTitle}</EditTitle>
         <div>
           <MarkdownToHTML>{contents}</MarkdownToHTML>

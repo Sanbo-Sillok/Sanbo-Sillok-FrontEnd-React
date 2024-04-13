@@ -11,7 +11,8 @@
     "lint": "prettier --cache --write src & eslint --cache --cache-location ./.cache/.eslintcache src",
     "prepare": "node ./scripts/setup.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "gh-pages": "vite build --mode gh-pages"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.29.2",

@@ -11,40 +11,43 @@ import SignUp from '@/pages/SignUp';
 const queryClient = new QueryClient();
 
 export default function App() {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <LayoutWithNav />,
-      children: [
-        {
-          path: '/',
-          element: <Home />,
-        },
-        {
-          path: '/wiki/:pageTitle',
-          element: <Wiki />,
-        },
-      ],
-    },
-    {
-      path: '/',
-      element: <LayoutWithoutNav />,
-      children: [
-        {
-          path: '/login',
-          element: <Login />,
-        },
-        {
-          path: '/signup',
-          element: <SignUp />,
-        },
-        {
-          path: '/edit/:pageTitle',
-          element: <Edit />,
-        },
-      ],
-    },
-  ]);
+  const router = createBrowserRouter(
+    [
+      {
+        path: '/',
+        element: <LayoutWithNav />,
+        children: [
+          {
+            path: '/',
+            element: <Home />,
+          },
+          {
+            path: '/wiki/:pageTitle',
+            element: <Wiki />,
+          },
+        ],
+      },
+      {
+        path: '/',
+        element: <LayoutWithoutNav />,
+        children: [
+          {
+            path: '/login',
+            element: <Login />,
+          },
+          {
+            path: '/signup',
+            element: <SignUp />,
+          },
+          {
+            path: '/edit/:pageTitle',
+            element: <Edit />,
+          },
+        ],
+      },
+    ],
+    { basename: import.meta.env.BASE_URL },
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

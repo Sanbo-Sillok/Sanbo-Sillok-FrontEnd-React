@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "vite --port 3000 --host 0.0.0.0",
     "build": "tsc && vite build",
+    "build:gh-pages": "vite build --base=/Sanbo-Sillok-FrontEnd-React/",
     "preview": "vite preview",
     "format": "prettier --cache --write src",
     "lint": "prettier --cache --write src & eslint --cache --cache-location ./.cache/.eslintcache src",
     "prepare": "node ./scripts/setup.js",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "gh-pages": "vite build --mode gh-pages"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.29.2",

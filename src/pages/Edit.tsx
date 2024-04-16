@@ -6,15 +6,15 @@ import EditTitle from '@/components/Edit/EditTitle';
 import ImageUploadButton from '@/components/Edit/ImageUploadButton';
 import SaveButton from '@/components/Edit/SaveButton';
 import BackButton from '@/components/Edit/BackButton';
-import useSaveWiki from '@/hooks/useSaveWiki';
 import useWikiQuery from '@/apis/queries/useWikiQuery';
+import useWikiMutation from '@/apis/mutations/useWikiMutation';
 
 export default function Edit() {
   const { pageTitle } = useParams();
   const navigate = useNavigate();
 
   const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
-  const { isLoading: isSaving, saveWiki } = useSaveWiki();
+  const { mutate: saveWiki, isPending: isSaving } = useWikiMutation();
 
   const [contents, setContents] = useState('');
 
@@ -41,9 +41,16 @@ export default function Edit() {
   // TODO: 로직 추가
   const handleUploadImage = () => {};
 
-  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await saveWiki({ isEdit: !!prevWikiData, pageTitle: pageTitle as string, contents });
+
+    const saveWikiData = {
+      isEdit: !!prevWikiData,
+      pageTitle: pageTitle as string,
+      contents,
+    };
+
+    saveWiki(saveWikiData);
   };
 
   return (

@@ -8,6 +8,7 @@ import SaveButton from '@/components/Edit/SaveButton';
 import BackButton from '@/components/Edit/BackButton';
 import useWikiQuery from '@/apis/queries/useWikiQuery';
 import useWikiMutation from '@/apis/mutations/useWikiMutation';
+import { MAIN_PAGE_URL } from '@/constants/common';
 
 export default function Edit() {
   const { pageTitle } = useParams();
@@ -22,7 +23,7 @@ export default function Edit() {
 
   useEffect(() => {
     if (prevWikiData) {
-      if (prevWikiData.result.status === 'PROTECTED') navigate('/wiki/산보위키');
+      if (prevWikiData.result.status === 'PROTECTED') navigate(MAIN_PAGE_URL);
 
       const prevContents = prevWikiData.result.contents;
       setContents(prevContents.slice(0, prevContents.length - 2));

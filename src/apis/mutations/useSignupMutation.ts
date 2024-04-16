@@ -5,9 +5,11 @@ import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/useSetToken';
 import { SignupBody, SignupResponse } from '@/types/api';
+import useSignup from '@/hooks/SignupForm/useSignup';
 
 export default function useSignupMutation() {
   const authAxios = useAuthAxiosInstance();
+  const { resetSignupForm } = useSignup();
   const { setAccessToken } = useSetToken();
   const navigate = useNavigate();
 
@@ -26,6 +28,7 @@ export default function useSignupMutation() {
     setAccessToken(accessToken);
     window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
+    resetSignupForm();
     navigate('/');
   };
 

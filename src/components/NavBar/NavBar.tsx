@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import useWindowScroll from '@/hooks/useWindowScroll';
 import SearchBar from './SearchBar';
-import OptionButton from './OptionButton';
+import OptionDropDown from './OptionDropDown';
 import { MAIN_PAGE_URL } from '@/constants/common';
 
 export default function NavBar() {
@@ -17,7 +17,7 @@ export default function NavBar() {
         </Link>
         <div className="flex h-full items-center justify-center gap-4">
           <SearchBar />
-          <OptionButton showOption={!isScrollDown} />
+          <OptionDropDown showOption={!isScrollDown} />
         </div>
       </div>
     </header>

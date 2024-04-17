@@ -2,11 +2,11 @@ import ProfileSVG from '@/assets/ProfileSVG';
 import useLogoutMutation from '@/apis/mutations/useLogoutMutation';
 import useToggleOption from '@/hooks/useToggleOption';
 
-interface OptionButtonProps {
+interface OptionDropDownProps {
   showOption?: boolean;
 }
 
-export default function OptionButton({ showOption = true }: OptionButtonProps) {
+export default function OptionDropDown({ showOption = true }: OptionDropDownProps) {
   const { isOpen, optionRef, toggle } = useToggleOption();
   const { mutate: logout, isPending } = useLogoutMutation();
 

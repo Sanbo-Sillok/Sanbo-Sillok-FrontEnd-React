@@ -9,6 +9,7 @@ import BackButton from '@/components/Edit/BackButton';
 import useWikiQuery from '@/apis/queries/useWikiQuery';
 import useWikiMutation from '@/apis/mutations/useWikiMutation';
 import { MAIN_PAGE_URL } from '@/constants/common';
+import useSyncScroll from '@/hooks/useSyncScroll';
 
 export default function Edit() {
   const { pageTitle } = useParams();
@@ -16,10 +17,9 @@ export default function Edit() {
 
   const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
   const { mutate: saveWiki, isPending: isSaving } = useWikiMutation();
+  const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();
 
   const [contents, setContents] = useState('');
-
-  // TODO: preview 컴포넌트 ref 연결로 스크롤 동기화
 
   useEffect(() => {
     if (prevWikiData) {
@@ -66,8 +66,7 @@ export default function Edit() {
             onChange={handleChangeContents}
             name="contents"
             placeholder="이곳에 내용을 입력하세요"
-            ref={() => {}}
-            onScroll={() => {}}
+            onKeyDown={handleInput}
             value={contents}
           />
           <div className="flex items-center justify-end gap-2 border-t border-base-500 p-3 dark:border-base-600">
@@ -79,7 +78,7 @@ export default function Edit() {
       </div>
       <div
         className="scroll-custom my-2 h-auto w-1/2 overflow-auto border-l border-base-500 pl-4 pr-4 mobile:hidden dark:border-base-600"
-        ref={() => {}}
+        ref={syncRef}
       >
         <EditTitle>{pageTitle}</EditTitle>
         <div>

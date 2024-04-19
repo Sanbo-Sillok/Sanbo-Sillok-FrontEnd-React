@@ -41,9 +41,18 @@ export interface SignupResponse {
     username: string;
     password: string;
   };
-  message: 'register success';
+  message: string;
   token: {
     access_token: string;
     refresh_token: string;
+  };
+}
+
+export interface ImageUploadResponse {
+  status: number;
+  message: string;
+  result: {
+    id: number;
+    image: string;
   };
 }

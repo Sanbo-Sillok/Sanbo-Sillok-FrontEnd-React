@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
@@ -10,6 +10,7 @@ import useWikiQuery from '@/apis/queries/useWikiQuery';
 import useWikiMutation from '@/apis/mutations/useWikiMutation';
 import { MAIN_PAGE_URL } from '@/constants/common';
 import useSyncScroll from '@/hooks/useSyncScroll';
+import useImageMutation from '@/apis/mutations/useImageMutation';
 
 export default function Edit() {
   const { pageTitle } = useParams();
@@ -17,9 +18,11 @@ export default function Edit() {
 
   const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
   const { mutate: saveWiki, isPending: isSaving } = useWikiMutation();
+  const { mutateAsync: uploadImageToServer } = useImageMutation();
   const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();
 
   const [contents, setContents] = useState('');
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (prevWikiData) {
@@ -36,11 +39,45 @@ export default function Edit() {
     setContents(event.target.value);
   };
 
-  // TODO: 로직 추가
-  const onDropImage = () => {};
+  // FIXME: blob 객체 주소가 src로 안들어감
+  const uploadImage = async (imageFile: File) => {
+    if (!imageFile.type.startsWith('image')) return;
+    if (!textareaRef.current) return;
 
-  // TODO: 로직 추가
-  const handleUploadImage = () => {};
+    const { selectionStart: cursorPosition, value: currentValue } = textareaRef.current;
+
+    const localImageURL = URL.createObjectURL(imageFile);
+    const markdownImageUploading = `![Uploading...](${localImageURL})`;
+
+    const uploadingContents = `${currentValue.substring(0, cursorPosition)}${markdownImageUploading}${currentValue.substring(cursorPosition)}`;
+    textareaRef.current.value = uploadingContents;
+    setContents(uploadingContents);
+
+    const imageURL = await uploadImageToServer(imageFile);
+    const markdownImageUploaded = `![](${imageURL})`;
+
+    textareaRef.current.value = textareaRef.current.value.replace(markdownImageUploading, markdownImageUploaded);
+    setContents(textareaRef.current.value);
+
+    URL.revokeObjectURL(localImageURL);
+  };
+
+  const onDropImage = async (event: React.DragEvent<HTMLTextAreaElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const image = event.dataTransfer.files[0];
+    uploadImage(image);
+  };
+
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const eventTarget = event.target;
+
+    if (eventTarget.files) {
+      uploadImage(eventTarget.files[0]);
+      eventTarget.value = '';
+    }
+  };
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,6 +102,7 @@ export default function Edit() {
             className="scroll-custom mb-1 mt-5 h-full resize-none bg-transparent pl-1 focus:outline-none dark:text-base-200"
             onChange={handleChangeContents}
             name="contents"
+            ref={textareaRef}
             placeholder="이곳에 내용을 입력하세요"
             onKeyDown={handleInput}
             value={contents}

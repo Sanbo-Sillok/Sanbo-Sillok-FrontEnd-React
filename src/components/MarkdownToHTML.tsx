@@ -5,6 +5,9 @@ import remarkBreaks from 'remark-breaks';
 import { Link } from 'react-router-dom';
 
 const urlTransform = (url: string) => {
+  alert(url);
+  alert(import.meta.env.VITE_IMAGE_SERVER_URL);
+  alert(import.meta.env.VITE_CLIENT_BASE_URL);
   if (url.startsWith(import.meta.env.VITE_IMAGE_SERVER_URL) || url.startsWith(`blob:${import.meta.env.VITE_CLIENT_BASE_URL}`)) return url;
   return null;
 };

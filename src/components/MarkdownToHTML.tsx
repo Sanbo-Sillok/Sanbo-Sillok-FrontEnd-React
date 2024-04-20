@@ -4,10 +4,16 @@ import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { Link } from 'react-router-dom';
 
+const urlTransform = (url: string) => {
+  if (url.startsWith(import.meta.env.VITE_IMAGE_SERVER_URL) || url.startsWith(`blob:${import.meta.env.VITE_CLIENT_BASE_URL}`)) return url;
+  return null;
+};
+
 export default function MarkdownToHTML({ children }: { children: string }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkBreaks]}
+      urlTransform={urlTransform}
       components={{
         h1: ({ node, children, ...props }) => (
           <h1

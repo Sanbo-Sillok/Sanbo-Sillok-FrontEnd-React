@@ -30,3 +30,29 @@ export interface WikiPostBody {
 export interface WikiPatchBody {
   contents: string;
 }
+
+export interface SignupBody {
+  username: string;
+  password: string;
+}
+
+export interface SignupResponse {
+  member: {
+    username: string;
+    password: string;
+  };
+  message: string;
+  token: {
+    access_token: string;
+    refresh_token: string;
+  };
+}
+
+export interface ImageUploadResponse {
+  status: number;
+  message: string;
+  result: {
+    id: number;
+    image: string;
+  };
+}

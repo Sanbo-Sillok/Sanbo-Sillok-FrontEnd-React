@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
@@ -6,23 +6,27 @@ import EditTitle from '@/components/Edit/EditTitle';
 import ImageUploadButton from '@/components/Edit/ImageUploadButton';
 import SaveButton from '@/components/Edit/SaveButton';
 import BackButton from '@/components/Edit/BackButton';
-import useSaveWiki from '@/hooks/useSaveWiki';
 import useWikiQuery from '@/apis/queries/useWikiQuery';
+import useWikiMutation from '@/apis/mutations/useWikiMutation';
+import { MAIN_PAGE_URL } from '@/constants/common';
+import useSyncScroll from '@/hooks/useSyncScroll';
+import useImageMutation from '@/apis/mutations/useImageMutation';
 
 export default function Edit() {
   const { pageTitle } = useParams();
   const navigate = useNavigate();
 
   const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
-  const { isLoading: isSaving, saveWiki } = useSaveWiki();
+  const { mutate: saveWiki, isPending: isSaving } = useWikiMutation();
+  const { mutateAsync: uploadImageToServer } = useImageMutation();
+  const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();
 
   const [contents, setContents] = useState('');
-
-  // TODO: preview 컴포넌트 ref 연결로 스크롤 동기화
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (prevWikiData) {
-      if (prevWikiData.result.status === 'PROTECTED') navigate('/wiki/산보위키');
+      if (prevWikiData.result.status === 'PROTECTED') navigate(MAIN_PAGE_URL);
 
       const prevContents = prevWikiData.result.contents;
       setContents(prevContents.slice(0, prevContents.length - 2));
@@ -35,15 +39,56 @@ export default function Edit() {
     setContents(event.target.value);
   };
 
-  // TODO: 로직 추가
-  const onDropImage = () => {};
+  // FIXME: blob 객체 주소가 src로 안들어감
+  const uploadImage = async (imageFile: File) => {
+    if (!imageFile.type.startsWith('image')) return;
+    if (!textareaRef.current) return;
 
-  // TODO: 로직 추가
-  const handleUploadImage = () => {};
+    const { selectionStart: cursorPosition, value: currentValue } = textareaRef.current;
 
-  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
+    const localImageURL = URL.createObjectURL(imageFile);
+    const markdownImageUploading = `![Uploading...](${localImageURL})`;
+
+    const uploadingContents = `${currentValue.substring(0, cursorPosition)}${markdownImageUploading}${currentValue.substring(cursorPosition)}`;
+    textareaRef.current.value = uploadingContents;
+    setContents(uploadingContents);
+
+    const imageURL = await uploadImageToServer(imageFile);
+    const markdownImageUploaded = `![](${imageURL})`;
+
+    textareaRef.current.value = textareaRef.current.value.replace(markdownImageUploading, markdownImageUploaded);
+    setContents(textareaRef.current.value);
+
+    URL.revokeObjectURL(localImageURL);
+  };
+
+  const onDropImage = async (event: React.DragEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
-    await saveWiki({ isEdit: !!prevWikiData, pageTitle: pageTitle as string, contents });
+    event.stopPropagation();
+
+    const image = event.dataTransfer.files[0];
+    uploadImage(image);
+  };
+
+  const handleUploadImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const eventTarget = event.target;
+
+    if (eventTarget.files) {
+      uploadImage(eventTarget.files[0]);
+      eventTarget.value = '';
+    }
+  };
+
+  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const saveWikiData = {
+      isEdit: !!prevWikiData,
+      pageTitle: pageTitle as string,
+      contents,
+    };
+
+    saveWiki(saveWikiData);
   };
 
   return (
@@ -57,9 +102,9 @@ export default function Edit() {
             className="scroll-custom mb-1 mt-5 h-full resize-none bg-transparent pl-1 focus:outline-none dark:text-base-200"
             onChange={handleChangeContents}
             name="contents"
+            ref={textareaRef}
             placeholder="이곳에 내용을 입력하세요"
-            ref={() => {}}
-            onScroll={() => {}}
+            onKeyDown={handleInput}
             value={contents}
           />
           <div className="flex items-center justify-end gap-2 border-t border-base-500 p-3 dark:border-base-600">
@@ -71,7 +116,7 @@ export default function Edit() {
       </div>
       <div
         className="scroll-custom my-2 h-auto w-1/2 overflow-auto border-l border-base-500 pl-4 pr-4 mobile:hidden dark:border-base-600"
-        ref={() => {}}
+        ref={syncRef}
       >
         <EditTitle>{pageTitle}</EditTitle>
         <div>

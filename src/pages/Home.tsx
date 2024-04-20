@@ -1,44 +1,6 @@
+import { Navigate } from 'react-router-dom';
+import { MAIN_PAGE_URL } from '@/constants/common';
+
 export default function Home() {
-  return (
-    <>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-      <h1 className="text-3xl text-sanbo-blue">this is home</h1>
-    </>
-  );
+  return <Navigate to={MAIN_PAGE_URL} replace />;
 }

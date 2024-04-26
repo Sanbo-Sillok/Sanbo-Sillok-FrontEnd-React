@@ -7,6 +7,7 @@ import LayoutWithoutNav from '@/pages/layouts/LayoutWithoutNav';
 import Login from '@/pages/Login';
 import Edit from '@/pages/Edit';
 import SignUp from '@/pages/SignUp';
+import DefaultMetaTag from './components/common/DefaultMetaTag';
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <DefaultMetaTag />
       <RouterProvider router={router} />
     </QueryClientProvider>
   );

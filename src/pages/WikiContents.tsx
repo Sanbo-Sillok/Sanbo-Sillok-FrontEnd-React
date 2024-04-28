@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import useWikiQuery from '@/apis/queries/useWikiQuery';
+import useWikiSuspenseQuery from '@/apis/queries/useWikiSuspenseQuery';
 import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
@@ -12,7 +12,7 @@ interface WikiContentsProps {
 }
 
 export default function WikiContents({ pageTitle }: WikiContentsProps) {
-  const { data } = useWikiQuery(`/wiki/${pageTitle}`);
+  const { data } = useWikiSuspenseQuery(`/wiki/${pageTitle}`);
 
   return (
     <div className="p-10 pb-20">

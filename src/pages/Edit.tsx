@@ -1,24 +1,28 @@
-import { useParams } from 'react-router-dom';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
-import useWikiQuery from '@/apis/queries/useWikiQuery';
-import WikiEditContents from './WikiEditContents';
+import WikiEditFetcher from './WikiEditFetcher';
+import WikiEditErrorFallback from './WikiEditErrorFallback';
 
 export default function Edit() {
   const { pageTitle } = useParams() as { pageTitle: string };
-
-  const { data: prevWikiData, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
-
-  if (isLoading) return <SkeletonLoading />;
+  const { pathname } = useLocation();
 
   return (
     <>
       <Helmet>
-        <title>
-          산보실록: {pageTitle} {prevWikiData ? '(편집)' : '(새 페이지 생성)'}
-        </title>
+        <title>산보실록: {pageTitle} (편집)</title>
       </Helmet>
-      <WikiEditContents isEdit={!!prevWikiData} pageTitle={pageTitle} prevContents={prevWikiData ? prevWikiData.result.contents : ''} />
+      <ErrorBoundary
+        resetKeys={[pathname]}
+        FallbackComponent={({ error, resetErrorBoundary }) => WikiEditErrorFallback({ error, resetErrorBoundary, pageTitle })}
+      >
+        <Suspense fallback={<SkeletonLoading />}>
+          <WikiEditFetcher />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }

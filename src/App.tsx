@@ -2,10 +2,10 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LayoutWithNav from '@/pages/layouts/LayoutWithNav';
 import Home from '@/pages/Home';
-import Wiki from '@/pages/Wiki';
+import Wiki from '@/pages/Wiki/Wiki';
 import LayoutWithoutNav from '@/pages/layouts/LayoutWithoutNav';
 import Login from '@/pages/Login';
-import Edit from '@/pages/Edit';
+import WikiEdit from '@/pages/WikiEdit/WikiEdit';
 import SignUp from '@/pages/SignUp';
 import DefaultMetaTag from './components/common/DefaultMetaTag';
 
@@ -42,7 +42,7 @@ export default function App() {
           },
           {
             path: '/edit/:pageTitle',
-            element: <Edit />,
+            element: <WikiEdit />,
           },
         ],
       },

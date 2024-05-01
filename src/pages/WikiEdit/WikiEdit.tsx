@@ -6,7 +6,7 @@ import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 import WikiEditFetcher from './WikiEditFetcher';
 import WikiEditErrorFallback from './WikiEditErrorFallback';
 
-export default function Edit() {
+export default function WikiEdit() {
   const { pageTitle } = useParams() as { pageTitle: string };
   const { pathname } = useLocation();
 

@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import { WikiPatchBody, WikiPostBody } from '@/types/api';
@@ -28,8 +29,8 @@ export default function useWikiMutation() {
     return response;
   };
 
-  const onSuccess = () => {
-    navigate(-1);
+  const onSuccess = (response: AxiosResponse<WikiData>) => {
+    navigate(`/wiki/${response.data.result.title}`);
   };
 
   const onError = () => {

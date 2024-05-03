@@ -8,7 +8,6 @@ import WikiErrorFallback from './WikiErrorFallback';
 
 export default function Wiki() {
   const { pageTitle } = useParams() as { pageTitle: string };
-  const { pathname } = useLocation();
 
   return (
     <>
@@ -16,7 +15,7 @@ export default function Wiki() {
         <title>산보실록: {pageTitle}</title>
       </Helmet>
       <ErrorBoundary
-        resetKeys={[pathname]}
+        resetKeys={[useLocation().pathname]}
         FallbackComponent={({ error, resetErrorBoundary }) => WikiErrorFallback({ error, resetErrorBoundary, pageTitle })}
       >
         <Suspense fallback={<SkeletonLoading />}>

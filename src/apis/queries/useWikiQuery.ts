@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { REACT_QUERY_KEYS } from '@/constants/queryKey';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
@@ -17,5 +18,6 @@ export default function useWikiQuery(url: string) {
     queryFn: getWikiData,
     staleTime: 5 * 1000,
     retry: false,
+    throwOnError: (error: AxiosError) => error.response!.status >= 500,
   });
 }

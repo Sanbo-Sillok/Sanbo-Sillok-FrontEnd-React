@@ -1,18 +1,21 @@
 import { Link } from 'react-router-dom';
-import useWikiSuspenseQuery from '@/apis/queries/useWikiSuspenseQuery';
 import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
 import TOC from '@/components/Wiki/TOC';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import ScrollTop from '@/components/Wiki/ScrollTop';
+import WikiNotFound from '@/components/Wiki/WikiNotFound';
+import useWikiQuery from '@/apis/queries/useWikiQuery';
 
 interface WikiContentsProps {
   pageTitle: string;
 }
 
 export default function WikiContents({ pageTitle }: WikiContentsProps) {
-  const { data } = useWikiSuspenseQuery(`/wiki/${pageTitle}`);
+  const { data } = useWikiQuery(`/wiki/${pageTitle}`);
+
+  if (!data) return <WikiNotFound pageTitle={pageTitle} />;
 
   return (
     <div className="p-10 pb-20">

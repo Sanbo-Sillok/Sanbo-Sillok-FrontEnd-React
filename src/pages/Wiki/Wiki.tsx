@@ -14,10 +14,7 @@ export default function Wiki() {
       <Helmet>
         <title>산보실록: {pageTitle}</title>
       </Helmet>
-      <ErrorBoundary
-        resetKeys={[useLocation().pathname]}
-        FallbackComponent={({ error, resetErrorBoundary }) => WikiErrorFallback({ error, resetErrorBoundary, pageTitle })}
-      >
+      <ErrorBoundary resetKeys={[useLocation().pathname]} FallbackComponent={WikiErrorFallback}>
         <Suspense fallback={<SkeletonLoading />}>
           <WikiContents pageTitle={pageTitle} />
         </Suspense>

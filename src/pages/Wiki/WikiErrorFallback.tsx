@@ -1,15 +1,7 @@
-import { AxiosError } from 'axios';
-import WikiNotFound from '@/components/Wiki/WikiNotFound';
+import { FallbackProps } from 'react-error-boundary';
 
-interface WikiErrorFallbackProps {
-  error: AxiosError;
-  resetErrorBoundary: () => void;
-  pageTitle: string;
-}
-
-export default function WikiErrorFallback({ error, resetErrorBoundary, pageTitle }: WikiErrorFallbackProps) {
-  if (error.response?.status === 404) return <WikiNotFound pageTitle={pageTitle} />;
-
+export default function WikiErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  console.log('걸림');
   return (
     <div>
       <p> 에러: {error.message} </p>

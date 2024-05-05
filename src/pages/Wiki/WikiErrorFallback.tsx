@@ -1,7 +1,6 @@
 import { FallbackProps } from 'react-error-boundary';
 
 export default function WikiErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
-  console.log('걸림');
   return (
     <div>
       <p> 에러: {error.message} </p>

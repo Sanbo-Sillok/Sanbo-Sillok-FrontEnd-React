@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { ErrorBoundary } from 'react-error-boundary';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 import WikiContents from './WikiContents';
-import WikiErrorFallback from './WikiErrorFallback';
+import ServerError from '../ServerError';
 
 export default function Wiki() {
   const { pageTitle } = useParams() as { pageTitle: string };
@@ -14,7 +14,7 @@ export default function Wiki() {
       <Helmet>
         <title>산보실록: {pageTitle}</title>
       </Helmet>
-      <ErrorBoundary resetKeys={[useLocation().pathname]} FallbackComponent={WikiErrorFallback}>
+      <ErrorBoundary resetKeys={[useLocation().pathname]} FallbackComponent={ServerError}>
         <Suspense fallback={<SkeletonLoading />}>
           <WikiContents pageTitle={pageTitle} />
         </Suspense>

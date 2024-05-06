@@ -8,6 +8,7 @@ import Login from '@/pages/Login';
 import WikiEdit from '@/pages/WikiEdit/WikiEdit';
 import SignUp from '@/pages/SignUp';
 import DefaultMetaTag from './components/common/DefaultMetaTag';
+import Admin from './pages/Admin';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,10 @@ export default function App() {
           {
             path: '/wiki/:pageTitle',
             element: <Wiki />,
+          },
+          {
+            path: '/admin',
+            element: <Admin />,
           },
         ],
       },

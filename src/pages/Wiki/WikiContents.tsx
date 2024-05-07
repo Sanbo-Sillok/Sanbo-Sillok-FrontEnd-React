@@ -7,14 +7,17 @@ import MarkdownToHTML from '@/components/MarkdownToHTML';
 import ScrollTop from '@/components/Wiki/ScrollTop';
 import WikiNotFound from '@/components/Wiki/WikiNotFound';
 import useWikiQuery from '@/apis/queries/useWikiQuery';
+import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
 
 interface WikiContentsProps {
   pageTitle: string;
 }
 
 export default function WikiContents({ pageTitle }: WikiContentsProps) {
-  const { data } = useWikiQuery(`/wiki/${pageTitle}`);
+  const { data, isLoading } = useWikiQuery(`/wiki/${pageTitle}`);
 
+  // FIXME: 추후 백엔드 변경에 맞춰 선언형으로 변경 (에러 바운더리 사용)
+  if (isLoading) return <SkeletonLoading />;
   if (!data) return <WikiNotFound pageTitle={pageTitle} />;
 
   return (

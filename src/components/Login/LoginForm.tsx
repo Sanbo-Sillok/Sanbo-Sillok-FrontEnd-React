@@ -2,12 +2,12 @@ import LoginButton from './LoginButton';
 
 interface LoginFormProps {
   isLoading: boolean;
-  handleLogin: (event: React.FormEvent<HTMLFormElement>) => void;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function LoginForm({ isLoading, handleLogin }: LoginFormProps) {
+export default function LoginForm({ isLoading, onSubmit }: LoginFormProps) {
   return (
-    <form onSubmit={handleLogin} className="flex flex-col items-center">
+    <form onSubmit={onSubmit} className="flex flex-col items-center">
       <div className="grid grid-cols-4 gap-1 mobile:flex mobile:flex-col">
         <div className="col-span-3 flex flex-col gap-1">
           <input

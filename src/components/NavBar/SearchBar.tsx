@@ -12,6 +12,7 @@ export default function SearchBar() {
     const searchName = searchInputElement.value;
     if (!searchName) return;
 
+    // TODO: 엔드포인트 수정
     navigate(`/wiki/${searchName}`);
     searchInputElement.value = '';
   };

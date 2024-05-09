@@ -9,6 +9,7 @@ export default function useImageMutation() {
     const formData = new FormData();
     formData.append('image', imageFile);
 
+    // TODO: 엔드포인트 수정
     const response = await authAxios.post<ImageUploadResponse>('/wiki/image', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

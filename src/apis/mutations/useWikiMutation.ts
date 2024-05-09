@@ -10,6 +10,7 @@ export default function useWikiMutation() {
   const navigate = useNavigate();
 
   const save = async ({ isEdit, pageTitle, contents }: { isEdit: boolean; pageTitle: string; contents: string }) => {
+    // TODO: 엔드포인트 수정
     const url = isEdit ? `/wiki/${pageTitle}` : '/wiki/';
     const method = isEdit ? 'PATCH' : 'POST';
     const newContents = `${contents}\n\n`;

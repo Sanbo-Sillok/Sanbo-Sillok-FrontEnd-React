@@ -6,8 +6,8 @@ export default function DefaultMetaTag() {
     <>
       <Helmet>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F4F5" />
-        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#27272A" />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#272727" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#18181b" />
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="산보실록" />

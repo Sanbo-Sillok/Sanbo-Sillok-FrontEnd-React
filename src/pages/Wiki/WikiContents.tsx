@@ -13,7 +13,7 @@ interface WikiContentsProps {
 }
 
 export default function WikiContents({ pageTitle }: WikiContentsProps) {
-  const { data } = useWikiSuspenseQuery(`/post/${pageTitle}`);
+  const { data } = useWikiSuspenseQuery(pageTitle);
 
   if (!data.isExist) return <WikiNotFound pageTitle={pageTitle} />;
 
@@ -32,8 +32,8 @@ export default function WikiContents({ pageTitle }: WikiContentsProps) {
         <p className="mb-4 pt-1 text-right text-sm mobile:text-xs dark:text-base-300">
           최근 수정 유저: {getLastUpdateUser(data.lastModifier)}
         </p>
-        <TOC markdownText={data.contents} />
-        <MarkdownToHTML>{data.contents}</MarkdownToHTML>
+        <TOC markdownText={data.content} />
+        <MarkdownToHTML>{data.content}</MarkdownToHTML>
       </div>
       <ScrollTop />
     </div>

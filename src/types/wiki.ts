@@ -1,7 +1,7 @@
 export interface WikiData {
   id: number | null;
   title: string | null;
-  contents: string | null;
+  content: string | null;
   lastModifier: string | null;
   status: 'ACTIVE' | 'PROTECTED' | 'REPORTED' | null;
   updatedAt: Date | null;
@@ -11,7 +11,7 @@ export interface WikiData {
 export interface ExistWikiData extends WikiData {
   id: number;
   title: string;
-  contents: string;
+  content: string;
   lastModifier: string;
   status: 'ACTIVE' | 'PROTECTED' | 'REPORTED';
   updatedAt: Date;
@@ -21,7 +21,7 @@ export interface ExistWikiData extends WikiData {
 export interface NotExistWikiData extends WikiData {
   id: null;
   title: null;
-  contents: null;
+  content: null;
   lastModifier: null;
   status: null;
   updatedAt: null;

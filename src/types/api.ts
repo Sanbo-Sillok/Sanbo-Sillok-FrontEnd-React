@@ -24,11 +24,11 @@ export interface RefreshResponse {
 
 export interface WikiPostBody {
   title: string;
-  contents: string;
+  content: string;
 }
 
 export interface WikiPatchBody {
-  contents: string;
+  content: string;
 }
 
 export interface SignupBody {

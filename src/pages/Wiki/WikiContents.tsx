@@ -6,20 +6,16 @@ import TOC from '@/components/Wiki/TOC';
 import MarkdownToHTML from '@/components/MarkdownToHTML';
 import ScrollTop from '@/components/Wiki/ScrollTop';
 import WikiNotFound from '@/components/Wiki/WikiNotFound';
-import useWikiQuery from '@/apis/queries/useWikiQuery';
-import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
+import useWikiSuspenseQuery from '@/apis/queries/useWikiSuspenseQuery';
 
 interface WikiContentsProps {
   pageTitle: string;
 }
 
 export default function WikiContents({ pageTitle }: WikiContentsProps) {
-  // TODO: 엔드포인트 수정
-  const { data, isLoading } = useWikiQuery(`/post/${pageTitle}`);
+  const { data } = useWikiSuspenseQuery(`/post/${pageTitle}`);
 
-  // FIXME: 추후 백엔드 변경에 맞춰 선언형으로 변경 (에러 바운더리 사용)
-  if (isLoading) return <SkeletonLoading />;
-  if (!data?.isExist) return <WikiNotFound pageTitle={pageTitle} />;
+  if (!data.isExist) return <WikiNotFound pageTitle={pageTitle} />;
 
   return (
     <div className="p-10 pb-20">

@@ -1,13 +1,13 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { REACT_QUERY_KEYS } from '@/constants/queryKey';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { ExistWikiData } from '@/types/wiki';
+import { ExistWikiData, NotExistWikiData } from '@/types/wiki';
 
 export default function useWikiSuspenseQuery(url: string) {
   const authAxios = useAuthAxiosInstance();
 
   const getWikiData = async () => {
-    const response = await authAxios.get<ExistWikiData>(url);
+    const response = await authAxios.get<ExistWikiData | NotExistWikiData>(url);
 
     return response.data;
   };

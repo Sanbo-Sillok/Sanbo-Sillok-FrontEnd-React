@@ -2,13 +2,13 @@ import { AxiosError } from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { REACT_QUERY_KEYS } from '@/constants/queryKey';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { WikiData } from '@/types/wiki';
+import { ExistWikiData, NotExistWikiData } from '@/types/wiki';
 
 export default function useWikiQuery(url: string) {
   const authAxios = useAuthAxiosInstance();
 
   const getWikiData = async () => {
-    const response = await authAxios.get<WikiData>(url);
+    const response = await authAxios.get<ExistWikiData | NotExistWikiData>(url);
 
     return response.data;
   };

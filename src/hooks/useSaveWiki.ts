@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthAxiosInstance from './useAuthAxiosInstance';
 import { WikiPatchBody, WikiPostBody } from '@/types/api';
-import { WikiData } from '@/types/wiki';
+import { ExistWikiData } from '@/types/wiki';
 
 export default function useSaveWiki() {
   const authAxios = useAuthAxiosInstance();
@@ -26,7 +26,7 @@ export default function useSaveWiki() {
             contents: newContents,
           } as WikiPostBody);
 
-      const response = await authAxios<WikiData>({ method, url, data });
+      const response = await authAxios<ExistWikiData>({ method, url, data });
 
       if (response.data.status === 200) navigate(-1);
     } catch (err) {

@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import { WikiPatchBody, WikiPostBody } from '@/types/api';
-import { WikiData } from '@/types/wiki';
+import { ExistWikiData } from '@/types/wiki';
 
 export default function useWikiMutation() {
   const authAxios = useAuthAxiosInstance();
@@ -25,12 +25,12 @@ export default function useWikiMutation() {
         } as WikiPostBody);
 
     // TODO: 쿼리키를 이용한 캐시
-    const response = await authAxios<WikiData>({ method, url, data });
+    const response = await authAxios<ExistWikiData>({ method, url, data });
 
     return response;
   };
 
-  const onSuccess = (response: AxiosResponse<WikiData>) => {
+  const onSuccess = (response: AxiosResponse<ExistWikiData>) => {
     navigate(`/wiki/${response.data.result.title}`);
   };
 

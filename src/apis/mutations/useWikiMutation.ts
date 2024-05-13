@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { WikiPatchBody, WikiPostBody } from '@/types/api';
+import { WikiPatchBody, WikiPostBody } from '@/types/apis/wiki';
 import { ExistWikiData } from '@/types/wiki';
 import { REACT_QUERY_KEYS } from '@/constants/queryKey';
 

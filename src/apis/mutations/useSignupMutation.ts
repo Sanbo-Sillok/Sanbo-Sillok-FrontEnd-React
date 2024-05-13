@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/useSetToken';
-import { SignupBody, SignupResponse } from '@/types/api';
+import useSetToken from '@/hooks/token/useSetToken';
+import { SignupBody, SignupResponse } from '@/types/apis/auth';
 import useSignup from '@/hooks/SignupForm/useSignup';
 
 export default function useSignupMutation() {

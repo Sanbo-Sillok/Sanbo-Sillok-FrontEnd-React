@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthAxiosInstance from './useAuthAxiosInstance';
-import { WikiPatchBody, WikiPostBody } from '@/types/api';
+import { WikiPatchBody, WikiPostBody } from '@/types/apis/wiki';
 import { ExistWikiData } from '@/types/wiki';
 
 export default function useSaveWiki() {

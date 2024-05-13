@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { ImageUploadResponse } from '@/types/api';
+import { ImageUploadResponse } from '@/types/apis/wiki';
 
 export default function useImageMutation() {
   const authAxios = useAuthAxiosInstance();

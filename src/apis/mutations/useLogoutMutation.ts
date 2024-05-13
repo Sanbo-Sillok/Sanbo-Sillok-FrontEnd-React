@@ -2,8 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/useSetToken';
-import { LogoutResponse } from '@/types/api';
+import useSetToken from '@/hooks/token/useSetToken';
+import { LogoutResponse } from '@/types/apis/auth';
 
 export default function useLogoutMutation() {
   const authAxios = useAuthAxiosInstance();

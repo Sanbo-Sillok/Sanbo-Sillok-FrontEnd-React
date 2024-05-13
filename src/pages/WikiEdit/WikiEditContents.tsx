@@ -8,7 +8,7 @@ import MarkdownToHTML from '@/components/MarkdownToHTML';
 import useSyncScroll from '@/hooks/useSyncScroll';
 import useEdit from '@/hooks/useEdit';
 
-export default function WikiEditFetcher() {
+export default function WikiEditContents() {
   const { pageTitle } = useParams() as { pageTitle: string };
   const { data } = useWikiSuspenseQuery(pageTitle);
   const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();

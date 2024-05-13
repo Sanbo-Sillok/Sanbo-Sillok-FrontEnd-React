@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { useLocation, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import SkeletonLoading from '@/components/Wiki/SkeletonLoading';
-import WikiEditFetcher from './WikiEditFetcher';
+import WikiEditContents from './WikiEditContents';
 import ServerError from '../ServerError';
 
 export default function WikiEdit() {
@@ -16,7 +16,7 @@ export default function WikiEdit() {
       </Helmet>
       <ErrorBoundary resetKeys={[useLocation().pathname]} FallbackComponent={ServerError}>
         <Suspense fallback={<SkeletonLoading />}>
-          <WikiEditFetcher />
+          <WikiEditContents />
         </Suspense>
       </ErrorBoundary>
     </>

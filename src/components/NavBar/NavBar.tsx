@@ -3,6 +3,7 @@ import useWindowScroll from '@/hooks/useWindowScroll';
 import SearchBar from './SearchBar';
 import OptionDropDown from './OptionDropDown';
 import { MAIN_PAGE_URL } from '@/constants/common';
+import RandomTitleButton from './RandomTitleButton';
 
 export default function NavBar() {
   const { isScrollDown } = useWindowScroll();
@@ -16,6 +17,7 @@ export default function NavBar() {
           <img src="/favicon.ico" alt="Sanbo-Sillok" />
         </Link>
         <div className="flex h-full items-center justify-center gap-4">
+          <RandomTitleButton />
           <SearchBar />
           <OptionDropDown showOption={!isScrollDown} />
         </div>

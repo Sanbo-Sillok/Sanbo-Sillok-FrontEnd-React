@@ -27,3 +27,7 @@ export interface NotExistWikiData extends WikiData {
   updatedAt: null;
   isExist: false;
 }
+
+export interface RandomWikiTitle {
+  title: string;
+}

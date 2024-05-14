@@ -21,7 +21,7 @@
   z-index: 1001; /* absurdity 1 */
 }
 [data-tooltip]::after {
-  content: attr(data-tooltip); /* magic! */
+  content: attr(data-tooltip);
 
   /* most of the rest of this is opinion */
   text-align: center;
@@ -59,8 +59,6 @@
 [data-tooltip]:not([data-flow])::before,
 [data-tooltip][data-flow^='up']::before {
   bottom: 100%;
-  border-bottom-width: 0;
-  border-top-color: #fff;
 }
 [data-tooltip]:not([data-flow])::after,
 [data-tooltip][data-flow^='up']::after {
@@ -77,8 +75,6 @@
 /* FLOW: DOWN */
 [data-tooltip][data-flow^='down']::before {
   top: 100%;
-  border-top-width: 0;
-  border-bottom-color: #fff;
 }
 [data-tooltip][data-flow^='down']::after {
   top: calc(100% + 5px);
@@ -92,8 +88,7 @@
 /* FLOW: LEFT */
 [data-tooltip][data-flow^='left']::before {
   top: 50%;
-  border-right-width: 0;
-  border-left-color: #fff;
+
   left: calc(0em - 5px);
   transform: translate(-0.5em, -50%);
 }
@@ -106,13 +101,38 @@
 /* FLOW: RIGHT */
 [data-tooltip][data-flow^='right']::before {
   top: 50%;
-  border-left-width: 0;
-  border-right-color: #fff;
+
   right: calc(0em - 5px);
   transform: translate(0.5em, -50%);
 }
 [data-tooltip][data-flow^='right']::after {
   top: 50%;
+  left: calc(100% + 5px);
+  transform: translate(0.5em, -50%);
+}
+
+/* FLOW: BOTTOM_LEFT */
+[data-tooltip][data-flow^='bottom-left']::before {
+  top: 150%;
+
+  left: calc(0em - 5px);
+  transform: translate(-0.5em, -50%);
+}
+[data-tooltip][data-flow^='bottom-left']::after {
+  top: 150%;
+  right: calc(100% + 5px);
+  transform: translate(-0.5em, -50%);
+}
+
+/* FLOW: BOTTOM_RIGHT */
+[data-tooltip][data-flow^='bottom-right']::before {
+  top: 150%;
+
+  right: calc(0em - 5px);
+  transform: translate(0.5em, -50%);
+}
+[data-tooltip][data-flow^='bottom-right']::after {
+  top: 150%;
   left: calc(100% + 5px);
   transform: translate(0.5em, -50%);
 }
@@ -145,6 +165,10 @@
 [data-tooltip][data-flow^='left']:hover::before,
 [data-tooltip][data-flow^='left']:hover::after,
 [data-tooltip][data-flow^='right']:hover::before,
-[data-tooltip][data-flow^='right']:hover::after {
+[data-tooltip][data-flow^='right']:hover::after,
+[data-tooltip][data-flow^='bottom-left']:hover::before,
+[data-tooltip][data-flow^='bottom-left']:hover::after,
+[data-tooltip][data-flow^='bottom-right']:hover::before,
+[data-tooltip][data-flow^='bottom-right']:hover::after {
   animation: tooltips-horz 300ms ease-out forwards;
 }

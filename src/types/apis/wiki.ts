@@ -8,10 +8,5 @@ export interface WikiPatchBody {
 }
 
 export interface ImageUploadResponse {
-  status: number;
-  message: string;
-  result: {
-    id: number;
-    image: string;
-  };
+  imagePath: string;
 }

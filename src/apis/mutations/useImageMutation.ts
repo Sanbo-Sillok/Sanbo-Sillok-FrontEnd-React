@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import { ImageUploadResponse } from '@/types/apis/wiki';
@@ -7,24 +8,22 @@ export default function useImageMutation() {
 
   const uploadImage = async (imageFile: File) => {
     const formData = new FormData();
-    formData.append('image', imageFile);
+    formData.append('file', imageFile);
 
     // TODO: 엔드포인트 수정
-    const response = await authAxios.post<ImageUploadResponse>('/wiki/image', formData, {
+    const response = await authAxios.post<ImageUploadResponse>('/post/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
-    // TODO: 서버 API 응답 바뀜에 따라 로직 수정
-    const { status, result } = response.data;
+    const { imagePath } = response.data;
 
-    if (status === 400) throw new Error('upload fail');
-
-    return result.image;
+    return imagePath;
   };
 
   // TODO: Error 타입 변경
-  const onError = (err: Error) => {
-    if (err.message === 'upload fail') console.log(err.message);
+  const onError = (err: AxiosError) => {
+    console.log(err);
+    alert('이미지 업로드에 실패했습니다. 잠시후 다시 시도해주세요');
   };
 
   return useMutation({

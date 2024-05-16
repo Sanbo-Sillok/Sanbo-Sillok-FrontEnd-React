@@ -1,3 +1,5 @@
+import { useNavigate, useParams } from 'react-router-dom';
+import useWikiSuspenseQuery from '@/apis/queries/useWikiSuspenseQuery';
 import BackButton from '@/components/Edit/BackButton';
 import EditTitle from '@/components/Edit/EditTitle';
 import ImageUploadButton from '@/components/Edit/ImageUploadButton';
@@ -6,24 +8,30 @@ import MarkdownToHTML from '@/components/MarkdownToHTML';
 import useSyncScroll from '@/hooks/useSyncScroll';
 import useEdit from '@/hooks/useEdit';
 
-interface WikiEditContentsProps {
-  isEdit: boolean;
-  pageTitle: string;
-  prevContents: string;
-}
+export default function WikiEditContents() {
+  const { pageTitle } = useParams() as { pageTitle: string };
+  const { data } = useWikiSuspenseQuery(pageTitle);
+  const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();
+  const navigate = useNavigate();
 
-export default function WikiEditContents({ pageTitle, isEdit, prevContents }: WikiEditContentsProps) {
+  const prevContents = data.content ?? '';
+  const isEdit = data.isExist;
+
+  if (data.status === 'PROTECTED' || data.status === 'REPORTED') {
+    alert('해당 페이지는 수정할 수 없습니다.');
+    navigate(-1);
+  }
+
   const { contents, handleChangeContents, handleSave, onDropImage, handleUploadImage, isSaving, textareaRef } = useEdit({
     pageTitle,
     prevContents,
     isEdit,
   });
-  const { handleInput, syncRef } = useSyncScroll<HTMLDivElement>();
 
   return (
     <section className="flex h-full gap-4 bg-white p-5 dark:bg-base-800">
       <div className="flex h-full w-1/2 flex-col mobile:w-full">
-        <EditTitle>{`${pageTitle} ${isEdit ? '(편집)' : '(새 페이지 생성)'}`}</EditTitle>
+        <EditTitle>{`${pageTitle} ${data.isExist ? '(편집)' : '(새 페이지 생성)'}`}</EditTitle>
         <div className="h-1 w-10 bg-base-700 dark:bg-base-600" />
         <form onSubmit={handleSave} className="flex h-full flex-col">
           <textarea

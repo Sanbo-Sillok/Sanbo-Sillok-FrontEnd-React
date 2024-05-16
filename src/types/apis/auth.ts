@@ -22,15 +22,6 @@ export interface RefreshResponse {
   access: string;
 }
 
-export interface WikiPostBody {
-  title: string;
-  contents: string;
-}
-
-export interface WikiPatchBody {
-  contents: string;
-}
-
 export interface SignupBody {
   username: string;
   password: string;
@@ -45,14 +36,5 @@ export interface SignupResponse {
   token: {
     access_token: string;
     refresh_token: string;
-  };
-}
-
-export interface ImageUploadResponse {
-  status: number;
-  message: string;
-  result: {
-    id: number;
-    image: string;
   };
 }

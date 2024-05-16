@@ -1,6 +1,7 @@
 @import './TOC.css';
 @import './markdown.css';
 @import './footer.css';
+@import './tool-tip.css';
 
 @tailwind base;
 @tailwind components;

@@ -3,8 +3,8 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/useSetToken';
-import { LoginBody, LoginResponse } from '@/types/api';
+import useSetToken from '@/hooks/token/useSetToken';
+import { LoginBody, LoginResponse } from '@/types/apis/auth';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();

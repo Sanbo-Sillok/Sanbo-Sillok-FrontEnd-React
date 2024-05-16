@@ -1,37 +1,37 @@
 import { useNavigate } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import { WikiPatchBody, WikiPostBody } from '@/types/api';
-import { WikiData } from '@/types/wiki';
+import { WikiPatchBody, WikiPostBody } from '@/types/apis/wiki';
+import { ExistWikiData } from '@/types/wiki';
+import { REACT_QUERY_KEYS } from '@/constants/queryKey';
 
 export default function useWikiMutation() {
   const authAxios = useAuthAxiosInstance();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const save = async ({ isEdit, pageTitle, contents }: { isEdit: boolean; pageTitle: string; contents: string }) => {
-    // TODO: 엔드포인트 수정
-    const url = isEdit ? `/wiki/${pageTitle}` : '/wiki/';
+    const url = isEdit ? `/post/${pageTitle}` : '/post';
     const method = isEdit ? 'PATCH' : 'POST';
     const newContents = `${contents}\n\n`;
 
     const data = isEdit
       ? ({
-          contents: newContents,
+          content: newContents,
         } as WikiPatchBody)
       : ({
-          title: pageTitle as string,
-          contents: newContents,
+          title: pageTitle,
+          content: newContents,
         } as WikiPostBody);
 
-    // TODO: 쿼리키를 이용한 캐시
-    const response = await authAxios<WikiData>({ method, url, data });
+    await authAxios<ExistWikiData>({ method, url, data });
 
-    return response;
+    return pageTitle;
   };
 
-  const onSuccess = (response: AxiosResponse<WikiData>) => {
-    navigate(`/wiki/${response.data.result.title}`);
+  const onSuccess = (pageTitle: string) => {
+    queryClient.invalidateQueries({ queryKey: [REACT_QUERY_KEYS.WIKI_DETAIL, pageTitle] });
+    navigate(`/wiki/${pageTitle}`);
   };
 
   const onError = () => {

@@ -10,14 +10,13 @@ export default function useImageMutation() {
     const formData = new FormData();
     formData.append('file', imageFile);
 
-    // TODO: 엔드포인트 수정
     const response = await authAxios.post<ImageUploadResponse>('/post/upload', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
 
-    const { imagePath } = response.data;
+    const { imagePath } = response.data; // {name}.{extension}
 
-    return imagePath;
+    return `${import.meta.env.VITE_API_DOMAIN}/image/${imagePath}`;
   };
 
   // TODO: Error 타입 변경

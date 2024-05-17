@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import WikiPageTitle from '@/components/Wiki/WikiPageTitle';
+import WikiPageTitle from '@/components/Wiki/WikiPageTitle/WikiPageTitle';
 import { getLastUpdateTime } from '@/utils/getLastUpdateTime';
 import { getLastUpdateUser } from '@/utils/getLastUpdateUser';
 import TOC from '@/components/Wiki/TOC';

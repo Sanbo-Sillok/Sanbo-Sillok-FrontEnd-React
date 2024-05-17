@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import WikiPageTitle from './WikiPageTitle';
+import WikiPageTitle from './WikiPageTitle/WikiPageTitle';
 
 interface WikiNotFoundProps {
   pageTitle: string;

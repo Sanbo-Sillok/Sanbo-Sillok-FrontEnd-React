@@ -1,8 +1,14 @@
+import { AxiosError } from 'axios';
 import { FallbackProps } from 'react-error-boundary';
+import { Navigate } from 'react-router-dom';
 
-interface ServerErrorProps extends FallbackProps {}
+interface ServerErrorProps extends FallbackProps {
+  error: AxiosError;
+}
 
-export default function ServerError({ resetErrorBoundary }: ServerErrorProps) {
+export default function ServerError({ error, resetErrorBoundary }: ServerErrorProps) {
+  if (error.response?.status === 401 || error.response?.status === 403) return <Navigate to="/login" />;
+
   return (
     <div className="flex items-center justify-center p-10">
       <div className="flex flex-col items-center justify-center gap-10">

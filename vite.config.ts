@@ -9,5 +9,18 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: 'scripts/vitest-setup.js',
+    coverage: {
+      include: ['src/**'],
+      exclude: [
+        'src/assets',
+        'src/App.tsx',
+        'src/main.tsx',
+        'src/components/MarkdownToHTML.tsx',
+        'src/components/Wiki/TOC.tsx',
+        'src/components/common/DefaultMetaTag.tsx',
+        'src/components/common/ISOMetaTag.tsx',
+      ],
+      reportsDirectory: '.cache/coverage',
+    },
   },
 });

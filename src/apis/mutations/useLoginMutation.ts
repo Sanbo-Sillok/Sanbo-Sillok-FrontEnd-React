@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/token/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
@@ -11,17 +10,18 @@ export default function useLoginMutation() {
   const { setAccessToken } = useSetToken();
   const navigate = useNavigate();
 
-  const login = async ({ username, password }: { username: string; password: string }) => {
-    const response = await authAxios.post<LoginResponse, AxiosResponse<LoginResponse>, LoginBody>('/auth/login', { username, password });
+  const login = async ({ username, password }: LoginBody) => {
+    const response = await authAxios.post<LoginResponse, AxiosResponse<LoginResponse>, LoginBody>('/login', { username, password });
 
     return response.data;
   };
 
   const onSuccess = (responseData: LoginResponse) => {
-    const { access_token: accessToken, refresh_token: refreshToken } = responseData.token;
+    const { accessToken } = responseData;
 
+    // TODO: refreshToken 적용
     setAccessToken(accessToken);
-    window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
+    // window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
     navigate('/');
   };

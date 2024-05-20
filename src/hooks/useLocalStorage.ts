@@ -11,11 +11,9 @@ interface UseLocalStorageOptions {
 
 export default function useLocalStorage<T>(
   key: string,
-  initialValue: T,
+  initialValue: T | null,
   options?: UseLocalStorageOptions,
-): [T, (value: T) => void, () => void] {
-  const [value, setValue] = useState<T>(initialValue);
-
+): [T | null, (value: T) => void, () => void] {
   const serializer = (plainValue: LocalStorageDataWithExpire<T>) => {
     return JSON.stringify(plainValue);
   };
@@ -38,6 +36,8 @@ export default function useLocalStorage<T>(
 
     return storedValue;
   };
+
+  const [value, setValue] = useState<T | null>(() => getStoredValue());
 
   const saveValue = (newValue: T) => {
     const expire = options?.expire ? Date.now() + options.expire : null;

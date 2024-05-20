@@ -2,8 +2,10 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useToken from './token/useToken';
 import useSetToken from './token/useSetToken';
-import { REFRESH_TOKEN } from '@/constants/auth';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/auth';
 import { RefreshResponse } from '@/types/apis/auth';
+import useLocalStorage from './useLocalStorage';
+import { SERVER_AUTH_ERROR_STATUS_CODE } from '@/constants/serverStatusCode';
 
 function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).response !== undefined;
@@ -15,6 +17,9 @@ export default function useAuthAxiosInstance() {
   const { accessToken } = useToken();
   const { setAccessToken } = useSetToken();
 
+  // FIXME: 추후 제거
+  const [storedAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null);
+
   const authAxios = axios.create({
     baseURL: import.meta.env.VITE_API_DOMAIN,
     headers: {
@@ -24,6 +29,12 @@ export default function useAuthAxiosInstance() {
 
   async function getNewRefreshToken() {
     try {
+      // FIXME: 추후 제거
+      if (storedAccessToken) {
+        setAccessToken(storedAccessToken);
+        return storedAccessToken;
+      }
+
       const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 
       if (!refreshToken) navigate('/login');
@@ -37,7 +48,7 @@ export default function useAuthAxiosInstance() {
 
       return newAccessToken;
     } catch (refreshError) {
-      if (isAxiosError(refreshError) && refreshError.response?.status === 401) {
+      if (isAxiosError(refreshError) && refreshError.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
         localStorage.removeItem(REFRESH_TOKEN);
         navigate('/login');
       }
@@ -61,7 +72,7 @@ export default function useAuthAxiosInstance() {
     async (error) => {
       const originalRequest = error.config;
 
-      if (error.response.status === 401 && !originalRequest.retry) {
+      if (error.response.status === SERVER_AUTH_ERROR_STATUS_CODE && !originalRequest.retry) {
         originalRequest.retry = true;
         const newAccessToken = await getNewRefreshToken();
 

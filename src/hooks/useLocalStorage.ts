@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface LocalStorageDataWithExpire<T> {
   value: T;
@@ -51,10 +51,6 @@ export default function useLocalStorage<T>(
     window.localStorage.removeItem(key);
     setValue(initialValue);
   };
-
-  useEffect(() => {
-    setValue(getStoredValue());
-  }, [key, initialValue]);
 
   return [value, saveValue, removeValue];
 }

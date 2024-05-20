@@ -46,7 +46,7 @@ describe('useLocalStorage', () => {
 
   it('저장된 값이 있다면 저장된 값을 사용', () => {
     mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }));
-    const { result } = renderHook(() => useLocalStorage('test', ''));
+    const { result } = renderHook(() => useLocalStorage('test', 'initialValue'));
     expect(result.current[0]).toBe('storedValue');
   });
 
@@ -56,6 +56,34 @@ describe('useLocalStorage', () => {
 
     const { result } = renderHook(() => useLocalStorage('test', 'initial'));
     expect(result.current[0]).toBe('initial');
+    expect(mockRemoveItem).toHaveBeenCalledWith('test');
+  });
+
+  it('초기값이 null일 때 value가 null', () => {
+    mockGetItem.mockReturnValueOnce(null);
+    const { result } = renderHook(() => useLocalStorage('test', null));
+    expect(result.current[0]).toBeNull();
+  });
+
+  it('만료시간이 설정되지 않은 경우', () => {
+    const { result } = renderHook(() => useLocalStorage('test', 'value'));
+    act(() => result.current[1]('newValue'));
+
+    expect(mockSetItem).toHaveBeenCalled();
+    const [key, value] = mockSetItem.mock.calls[0];
+    expect(key).toBe('test');
+
+    const storedValue = JSON.parse(value);
+    expect(storedValue.value).toBe('newValue');
+    expect(storedValue.expire).toBeNull();
+  });
+
+  it('초기값이 null이고 만료시간이 지난 경우 value가 null', () => {
+    const expiredTime = Date.now() - 1000; // 1초 전 만료
+    mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'expiredValue', expire: expiredTime }));
+
+    const { result } = renderHook(() => useLocalStorage('test', null));
+    expect(result.current[0]).toBeNull();
     expect(mockRemoveItem).toHaveBeenCalledWith('test');
   });
 });

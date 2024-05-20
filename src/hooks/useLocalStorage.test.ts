@@ -45,7 +45,9 @@ describe('useLocalStorage', () => {
   });
 
   it('저장된 값이 있다면 저장된 값을 사용', () => {
-    mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }));
+    mockGetItem
+      .mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }))
+      .mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }));
     const { result } = renderHook(() => useLocalStorage('test', 'initialValue'));
     expect(result.current[0]).toBe('storedValue');
   });

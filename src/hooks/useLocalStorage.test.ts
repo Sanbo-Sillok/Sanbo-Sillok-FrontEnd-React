@@ -1,5 +1,7 @@
+import { Mock } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import useLocalStorage from './useLocalStorage';
+import { isServer } from '@/utils/isServer';
 
 // 로컬 스토리지 목업
 const mockGetItem = vi.fn();
@@ -45,20 +47,18 @@ describe('useLocalStorage', () => {
   });
 
   it('저장된 값이 있다면 저장된 값을 사용', () => {
-    mockGetItem
-      .mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }))
-      .mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }));
+    mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'storedValue', expire: null }));
+
     const { result } = renderHook(() => useLocalStorage('test', 'initialValue'));
     expect(result.current[0]).toBe('storedValue');
   });
 
   it('만료시간이 지난 경우 저장된 값을 지우고 initialValue를 사용', () => {
-    const expiredTime = Date.now() - 1000; // 1초 전 만료
-    mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'expiredValue', expire: expiredTime }));
+    mockGetItem.mockReturnValueOnce(JSON.stringify({ value: 'expiredValue', expire: 1000 }));
 
-    const { result } = renderHook(() => useLocalStorage('test', 'initial'));
-    expect(result.current[0]).toBe('initial');
+    const { result } = renderHook(() => useLocalStorage('test', 'initialValue'));
     expect(mockRemoveItem).toHaveBeenCalledWith('test');
+    expect(result.current[0]).toBe('initialValue');
   });
 
   it('초기값이 null일 때 value가 null', () => {
@@ -87,5 +87,18 @@ describe('useLocalStorage', () => {
     const { result } = renderHook(() => useLocalStorage('test', null));
     expect(result.current[0]).toBeNull();
     expect(mockRemoveItem).toHaveBeenCalledWith('test');
+  });
+
+  it('SSR 환경인 경우 초기 값을 반환', () => {
+    vi.mock('@/utils/isServer', () => ({
+      isServer: vi.fn(),
+    }));
+
+    mockGetItem.mockReturnValue(JSON.stringify({ value: 'storedValue', expire: null }));
+
+    (isServer as Mock<[], boolean>).mockReturnValueOnce(true);
+
+    const { result: ssrResult } = renderHook(() => useLocalStorage('test', 'initialValue'));
+    expect(ssrResult.current[0]).toBe('initialValue'); // 저장된 값이 있어도 초기 값을 반환
   });
 });

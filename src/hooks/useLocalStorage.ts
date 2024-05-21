@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { isServer } from '@/utils/isServer';
 
 interface LocalStorageDataWithExpire<T> {
   value: T;
@@ -14,8 +15,6 @@ export default function useLocalStorage<T>(
   initialValue: T | null,
   options?: UseLocalStorageOptions,
 ): [T | null, (value: T) => void, () => void] {
-  const IS_SERVER = typeof window === 'undefined';
-
   const serializer = (plainValue: LocalStorageDataWithExpire<T>) => {
     return JSON.stringify(plainValue);
   };
@@ -25,7 +24,7 @@ export default function useLocalStorage<T>(
   };
 
   const getStoredValue = () => {
-    if (IS_SERVER) return initialValue;
+    if (isServer()) return initialValue;
 
     const storedObj = window.localStorage.getItem(key);
 

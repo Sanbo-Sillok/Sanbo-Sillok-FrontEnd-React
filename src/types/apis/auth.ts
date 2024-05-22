@@ -32,3 +32,9 @@ export interface SignupResponse {
     refresh_token: string;
   };
 }
+
+export interface PendingUserList {
+  username: string;
+  createdAt: Date;
+  studentIdImagePath: string;
+}

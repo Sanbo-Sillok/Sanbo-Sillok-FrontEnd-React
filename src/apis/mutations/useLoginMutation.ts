@@ -1,27 +1,33 @@
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/token/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
+import useLocalStorage from '@/hooks/useLocalStorage';
+import { ACCESS_TOKEN, ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
   const { setAccessToken } = useSetToken();
+  const [, saveAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null, { expire: ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
   const navigate = useNavigate();
 
-  const login = async ({ username, password }: { username: string; password: string }) => {
-    const response = await authAxios.post<LoginResponse, AxiosResponse<LoginResponse>, LoginBody>('/auth/login', { username, password });
+  const login = async ({ username, password }: LoginBody) => {
+    const response = await authAxios.post<LoginResponse, AxiosResponse<LoginResponse>, LoginBody>('/login', { username, password });
 
     return response.data;
   };
 
   const onSuccess = (responseData: LoginResponse) => {
-    const { access_token: accessToken, refresh_token: refreshToken } = responseData.token;
+    const { accessToken } = responseData;
 
+    // FIXME: refreshToken으로 변경
+    saveAccessToken(accessToken);
+
+    // TODO: refreshToken 적용
     setAccessToken(accessToken);
-    window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
+    // window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
     navigate('/');
   };

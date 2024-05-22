@@ -15,5 +15,6 @@ export default function useRandomWikiQuery() {
   return useQuery({
     queryKey: [REACT_QUERY_KEYS.RANDOM_WIKI_TITLE],
     queryFn: getRandomWikiTitle,
+    enabled: false,
   });
 }

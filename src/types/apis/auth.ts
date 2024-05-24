@@ -8,9 +8,7 @@ export interface LoginResponse {
   // refresh_token: string;
 }
 
-export interface LogoutResponse {
-  message: string;
-}
+export interface LogoutResponse {}
 
 export interface RefreshResponse {
   access: string;

@@ -19,6 +19,7 @@ export interface RefreshResponse {
 export interface SignupBody {
   username: string;
   password: string;
+  studentIdImage: File;
 }
 
 export interface SignupResponse {
@@ -33,7 +34,11 @@ export interface SignupResponse {
   };
 }
 
-export interface PendingUserList {
+export interface CheckUsernameResponse {
+  isExist: boolean;
+}
+
+export interface PendingUserDataResponse {
   username: string;
   createdAt: Date;
   studentIdImagePath: string;

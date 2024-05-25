@@ -6,8 +6,8 @@ export default function useAcceptSignup() {
   const authAxios = useAuthAxiosInstance();
   const { refetch } = useAdminSuspenseQuery();
 
-  const accept = async (username: string) => {
-    await authAxios.patch(`/admin/${username}`);
+  const accept = async (index: number) => {
+    await authAxios.patch(`/admin/${index}`);
   };
 
   const onSuccess = () => {

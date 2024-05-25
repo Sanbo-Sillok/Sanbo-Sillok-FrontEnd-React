@@ -51,6 +51,7 @@ export interface CheckUsernameResponse {
 }
 
 export interface PendingUserDataResponse {
+  id: number;
   username: string;
   createdAt: Date;
   studentIdImagePath: string;

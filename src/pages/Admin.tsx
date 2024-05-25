@@ -18,10 +18,10 @@ export default function Admin() {
           </tr>
         </thead>
         {pendingUserList.map((pendingUser) => {
-          const { username, createdAt, studentIdImagePath } = pendingUser;
+          const { id, username, createdAt, studentIdImagePath } = pendingUser;
 
           return (
-            <tbody key={username}>
+            <tbody key={id}>
               <tr>
                 <td className="border-collapse border p-2">{username}</td>
                 <td className="border-collapse border p-2">{getLastUpdateTime(createdAt)}</td>
@@ -36,7 +36,7 @@ export default function Admin() {
                   </a>
                 </td>
                 <td className="border-collapse border p-2">
-                  <button className="text-sanbo-blue" type="button" onClick={() => acceptSignup(username)}>
+                  <button className="text-sanbo-blue" type="button" onClick={() => acceptSignup(id)}>
                     승인
                   </button>
                 </td>

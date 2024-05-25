@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +6,10 @@ import useSetToken from '@/hooks/auth/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { ACCESS_TOKEN, ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
-import useToken from '@/hooks/auth/useToken';
 import useUserRole from '@/hooks/auth/useUserRole';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
-  const { accessToken: storedAccessToken } = useToken();
   const { setAccessToken } = useSetToken();
   const { setUserRole } = useUserRole();
   const [, saveAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null, { expire: ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
@@ -34,15 +31,13 @@ export default function useLoginMutation() {
 
     // FIXME: refreshToken으로 변경
     saveAccessToken(accessToken);
+
+    navigate('/');
   };
 
   const onError = (err: AxiosError) => {
     if (err.response?.status === 401) alert('아이디 또는 패스워드가 틀렸습니다.');
   };
-
-  useEffect(() => {
-    if (storedAccessToken) navigate('/');
-  }, [storedAccessToken]);
 
   return useMutation({
     mutationFn: login,

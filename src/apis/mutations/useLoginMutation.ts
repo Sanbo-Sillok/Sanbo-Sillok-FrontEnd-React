@@ -3,16 +3,18 @@ import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/token/useSetToken';
+import useSetToken from '@/hooks/auth/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
 import useLocalStorage from '@/hooks/useLocalStorage';
 import { ACCESS_TOKEN, ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
-import useToken from '@/hooks/token/useToken';
+import useToken from '@/hooks/auth/useToken';
+import useUserRole from '@/hooks/auth/useUserRole';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
   const { accessToken: storedAccessToken } = useToken();
   const { setAccessToken } = useSetToken();
+  const { setUserRole } = useUserRole();
   const [, saveAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null, { expire: ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
   const navigate = useNavigate();
 
@@ -23,10 +25,11 @@ export default function useLoginMutation() {
   };
 
   const onSuccess = (responseData: LoginResponse) => {
-    const { accessToken } = responseData;
+    const { accessToken, role } = responseData;
 
     // TODO: refreshToken 적용
     setAccessToken(accessToken);
+    setUserRole(role);
     // window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
     // FIXME: refreshToken으로 변경

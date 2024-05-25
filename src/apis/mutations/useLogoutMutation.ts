@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/token/useSetToken';
+import useSetToken from '@/hooks/auth/useSetToken';
 import { LogoutResponse } from '@/types/apis/auth';
 import useLocalStorage from '@/hooks/useLocalStorage';
 

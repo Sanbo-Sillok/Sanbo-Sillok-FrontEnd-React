@@ -1,7 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import useToken from './token/useToken';
-import useSetToken from './token/useSetToken';
+import useToken from './auth/useToken';
+import useSetToken from './auth/useSetToken';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/auth';
 import { RefreshResponse } from '@/types/apis/auth';
 import useLocalStorage from './useLocalStorage';

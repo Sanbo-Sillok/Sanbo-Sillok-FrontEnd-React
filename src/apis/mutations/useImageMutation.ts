@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { useMutation } from '@tanstack/react-query';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import { ImageUploadResponse } from '@/types/apis/wiki';
@@ -19,9 +18,7 @@ export default function useImageMutation() {
     return `${import.meta.env.VITE_API_DOMAIN}/image/${imagePath}`;
   };
 
-  // TODO: Error 타입 변경
-  const onError = (err: AxiosError) => {
-    console.log(err);
+  const onError = () => {
     alert('이미지 업로드에 실패했습니다. 잠시후 다시 시도해주세요');
   };
 

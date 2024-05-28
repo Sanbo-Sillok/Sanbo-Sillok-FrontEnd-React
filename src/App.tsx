@@ -8,7 +8,7 @@ import Login from '@/pages/Login';
 import WikiEdit from '@/pages/WikiEdit/WikiEdit';
 import SignUp from '@/pages/SignUp';
 import DefaultMetaTag from './components/common/DefaultMetaTag';
-import Admin from './pages/Admin';
+import Admin from './pages/Admin/Admin';
 
 const queryClient = new QueryClient();
 

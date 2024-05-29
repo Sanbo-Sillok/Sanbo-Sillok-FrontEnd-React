@@ -3,12 +3,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import LayoutWithNav from '@/pages/layouts/LayoutWithNav';
 import Home from '@/pages/Home';
 import Wiki from '@/pages/Wiki/Wiki';
+import Admin from '@/pages/Admin/Admin';
 import LayoutWithoutNav from '@/pages/layouts/LayoutWithoutNav';
 import Login from '@/pages/Login';
 import WikiEdit from '@/pages/WikiEdit/WikiEdit';
 import SignUp from '@/pages/SignUp';
-import DefaultMetaTag from './components/common/DefaultMetaTag';
-import Admin from './pages/Admin/Admin';
+import DefaultMetaTag from '@/components/common/DefaultMetaTag';
 
 const queryClient = new QueryClient();
 

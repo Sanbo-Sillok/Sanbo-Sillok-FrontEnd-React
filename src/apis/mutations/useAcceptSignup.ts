@@ -11,6 +11,7 @@ export default function useAcceptSignup() {
   };
 
   const onSuccess = () => {
+    alert('승인되었습니다.');
     refetch();
   };
 

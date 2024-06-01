@@ -5,9 +5,9 @@ import Home from '@/pages/Home';
 import Wiki from '@/pages/Wiki/Wiki';
 import Admin from '@/pages/Admin/Admin';
 import LayoutWithoutNav from '@/pages/layouts/LayoutWithoutNav';
-import Login from '@/pages/Login';
+import Login from '@/pages/Auth/Login';
 import WikiEdit from '@/pages/WikiEdit/WikiEdit';
-import SignUp from '@/pages/SignUp';
+import SignUp from '@/pages/Auth/SignUp';
 import DefaultMetaTag from '@/components/common/DefaultMetaTag';
 
 const queryClient = new QueryClient();

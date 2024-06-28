@@ -2,8 +2,8 @@ import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useToken from './auth/useToken';
 import useSetToken from './auth/useSetToken';
-import { ACCESS_TOKEN, REFRESH_TOKEN } from '@/constants/auth';
-import { RefreshResponse } from '@/types/apis/auth';
+import { REFRESH_TOKEN } from '@/constants/auth';
+import { RefreshBody, RefreshResponse } from '@/types/apis/auth';
 import useLocalStorage from './useLocalStorage';
 import { SERVER_AUTH_ERROR_STATUS_CODE } from '@/constants/serverStatusCode';
 
@@ -17,8 +17,7 @@ export default function useAuthAxiosInstance() {
   const { accessToken } = useToken();
   const { setAccessToken } = useSetToken();
 
-  // FIXME: 추후 제거
-  const [storedAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null);
+  const [storedRefreshToken, , removeRefreshToken] = useLocalStorage<string>(REFRESH_TOKEN, null);
 
   const authAxios = axios.create({
     baseURL: import.meta.env.VITE_API_DOMAIN,
@@ -29,28 +28,20 @@ export default function useAuthAxiosInstance() {
 
   async function getNewRefreshToken() {
     try {
-      // FIXME: 추후 제거
-      if (storedAccessToken) {
-        setAccessToken(storedAccessToken);
-        return storedAccessToken;
-      }
+      if (!storedRefreshToken) navigate('/login');
 
-      return null;
-
-      const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-      if (!refreshToken) navigate('/login');
-
-      const refreshResponse = await axios.post<RefreshResponse>(`${import.meta.env.VITE_API_DOMAIN}/auth/token/refresh/`, {
-        refresh: refreshToken,
+      const refreshResponse = await axios.post<RefreshBody, RefreshResponse>(`${import.meta.env.VITE_API_DOMAIN}/token/refresh/`, {
+        refreshToken: storedRefreshToken,
       });
-      const { access: newAccessToken } = refreshResponse.data;
+
+      const { accessToken: newAccessToken } = refreshResponse;
 
       setAccessToken(newAccessToken);
 
       return newAccessToken;
     } catch (refreshError) {
       if (isAxiosError(refreshError) && refreshError.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
-        localStorage.removeItem(REFRESH_TOKEN);
+        removeRefreshToken();
         navigate('/login');
       }
 

@@ -18,14 +18,20 @@ export enum UserRole {
 
 export interface LoginResponse {
   accessToken: string;
-  // refresh_token: string;
+  refreshToken: string;
   role: UserRole;
 }
 
-export interface LogoutResponse {}
+export interface LogoutResponse {
+  message: string;
+}
+
+export interface RefreshBody {
+  refreshToken: string;
+}
 
 export interface RefreshResponse {
-  access: string;
+  accessToken: string;
 }
 
 export interface SignupBody {

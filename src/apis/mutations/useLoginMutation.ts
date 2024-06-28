@@ -5,14 +5,12 @@ import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/auth/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { ACCESS_TOKEN, ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
-import useUserRole from '@/hooks/auth/useUserRole';
+import { REFRESH_TOKEN, REFRESH_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
   const { setAccessToken } = useSetToken();
-  const { setUserRole } = useUserRole();
-  const [, saveAccessToken] = useLocalStorage<string>(ACCESS_TOKEN, null, { expire: ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
+  const [, saveRefreshToken] = useLocalStorage<string>(REFRESH_TOKEN, null, { expire: REFRESH_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
   const navigate = useNavigate();
 
   const login = async ({ username, password }: LoginBody) => {
@@ -22,15 +20,10 @@ export default function useLoginMutation() {
   };
 
   const onSuccess = (responseData: LoginResponse) => {
-    const { accessToken, role } = responseData;
+    const { accessToken, refreshToken } = responseData;
 
-    // TODO: refreshToken 적용
+    saveRefreshToken(refreshToken);
     setAccessToken(accessToken);
-    setUserRole(role);
-    // window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
-
-    // FIXME: refreshToken으로 변경
-    saveAccessToken(accessToken);
 
     navigate('/');
   };

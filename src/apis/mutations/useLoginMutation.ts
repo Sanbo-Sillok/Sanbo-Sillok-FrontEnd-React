@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/auth/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
-import useLocalStorage from '@/hooks/useLocalStorage';
-import { REFRESH_TOKEN, REFRESH_TOKEN_LOCAL_STORAGE_EXPIRE } from '@/constants/auth';
+import { REFRESH_TOKEN } from '@/constants/auth';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
   const { setAccessToken } = useSetToken();
-  const [, saveRefreshToken] = useLocalStorage<string>(REFRESH_TOKEN, null, { expire: REFRESH_TOKEN_LOCAL_STORAGE_EXPIRE }); // 1시간
   const navigate = useNavigate();
 
   const login = async ({ username, password }: LoginBody) => {
@@ -22,7 +20,7 @@ export default function useLoginMutation() {
   const onSuccess = (responseData: LoginResponse) => {
     const { accessToken, refreshToken } = responseData;
 
-    saveRefreshToken(refreshToken);
+    localStorage.setItem(REFRESH_TOKEN, refreshToken);
     setAccessToken(accessToken);
 
     navigate('/');

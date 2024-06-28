@@ -32,6 +32,7 @@ export interface RefreshBody {
 
 export interface RefreshResponse {
   accessToken: string;
+  refreshToken: string;
 }
 
 export interface SignupBody {

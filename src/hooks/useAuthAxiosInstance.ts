@@ -1,10 +1,9 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useToken from './auth/useToken';
 import useSetToken from './auth/useSetToken';
 import { REFRESH_TOKEN } from '@/constants/auth';
 import { RefreshBody, RefreshResponse } from '@/types/apis/auth';
-import useLocalStorage from './useLocalStorage';
 import { SERVER_AUTH_ERROR_STATUS_CODE } from '@/constants/serverStatusCode';
 
 function isAxiosError(error: unknown): error is AxiosError {
@@ -17,8 +16,6 @@ export default function useAuthAxiosInstance() {
   const { accessToken } = useToken();
   const { setAccessToken } = useSetToken();
 
-  const [storedRefreshToken, , removeRefreshToken] = useLocalStorage<string>(REFRESH_TOKEN, null);
-
   const authAxios = axios.create({
     baseURL: import.meta.env.VITE_API_DOMAIN,
     headers: {
@@ -28,20 +25,27 @@ export default function useAuthAxiosInstance() {
 
   async function getNewRefreshToken() {
     try {
-      if (!storedRefreshToken) navigate('/login');
+      const storedRefreshToken = localStorage.getItem(REFRESH_TOKEN);
+      if (!storedRefreshToken) return navigate('/login');
 
-      const refreshResponse = await axios.post<RefreshBody, RefreshResponse>(`${import.meta.env.VITE_API_DOMAIN}/token/refresh/`, {
+      const refreshBody = {
         refreshToken: storedRefreshToken,
-      });
+      };
 
-      const { accessToken: newAccessToken } = refreshResponse;
+      const refreshResponse = await axios.post<RefreshBody, AxiosResponse<RefreshResponse>>(
+        `${import.meta.env.VITE_API_DOMAIN}/token/refresh`,
+        refreshBody,
+      );
 
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = refreshResponse.data;
+
+      localStorage.setItem(REFRESH_TOKEN, newRefreshToken);
       setAccessToken(newAccessToken);
 
       return newAccessToken;
     } catch (refreshError) {
       if (isAxiosError(refreshError) && refreshError.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
-        removeRefreshToken();
+        localStorage.removeItem(REFRESH_TOKEN);
         navigate('/login');
       }
 
@@ -52,8 +56,9 @@ export default function useAuthAxiosInstance() {
   authAxios.interceptors.request.use(
     (config) => {
       const modifiedConfig = { ...config };
-      if (accessToken) modifiedConfig.headers.Authorization = `Bearer ${accessToken}`;
+      if (modifiedConfig.url === '/login' || modifiedConfig.url === '/token/refresh') return modifiedConfig;
 
+      if (accessToken) modifiedConfig.headers.Authorization = `Bearer ${accessToken}`;
       return modifiedConfig;
     },
     (error) => Promise.reject(error),

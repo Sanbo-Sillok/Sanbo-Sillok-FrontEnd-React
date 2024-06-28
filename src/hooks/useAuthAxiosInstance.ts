@@ -46,7 +46,7 @@ export default function useAuthAxiosInstance() {
     } catch (refreshError) {
       if (isAxiosError(refreshError) && refreshError.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
         localStorage.removeItem(REFRESH_TOKEN);
-        navigate('/login');
+        return navigate('/login');
       }
 
       return null;

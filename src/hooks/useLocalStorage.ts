@@ -17,6 +17,8 @@ interface UseLocalStorageOptions {
   expire?: number;
 }
 
+const CUSTOM_LOCALSTORAGE_EVENT = 'local-storage';
+
 export default function useLocalStorage<T>(
   key: string,
   initialValue: T | null,
@@ -34,13 +36,14 @@ export default function useLocalStorage<T>(
     if (isServer()) return initialValue;
 
     const storedObj = window.localStorage.getItem(key);
-
     if (!storedObj) return initialValue;
 
     const { value: storedValue, expire } = deserializer(storedObj);
 
     if (expire && Date.now() > expire) {
       window.localStorage.removeItem(key);
+      window.dispatchEvent(new StorageEvent(CUSTOM_LOCALSTORAGE_EVENT, { key }));
+
       return initialValue;
     }
 
@@ -55,13 +58,13 @@ export default function useLocalStorage<T>(
 
     window.localStorage.setItem(key, serializer(newData));
     setValue(newValue);
-    window.dispatchEvent(new StorageEvent('local-storage', { key }));
+    window.dispatchEvent(new StorageEvent(CUSTOM_LOCALSTORAGE_EVENT, { key }));
   };
 
   const removeValue = () => {
     window.localStorage.removeItem(key);
     setValue(initialValue);
-    window.dispatchEvent(new StorageEvent('local-storage', { key }));
+    window.dispatchEvent(new StorageEvent(CUSTOM_LOCALSTORAGE_EVENT, { key }));
   };
 
   const handleStorageChange = (event: StorageEvent | CustomEvent) => {
@@ -70,11 +73,11 @@ export default function useLocalStorage<T>(
   };
 
   useEffect(() => {
-    window.addEventListener('local-storage', handleStorageChange);
+    window.addEventListener(CUSTOM_LOCALSTORAGE_EVENT, handleStorageChange as EventListener);
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
-      window.removeEventListener('local-storage', handleStorageChange);
+      window.removeEventListener(CUSTOM_LOCALSTORAGE_EVENT, handleStorageChange as EventListener);
       window.removeEventListener('storage', handleStorageChange);
     };
   });

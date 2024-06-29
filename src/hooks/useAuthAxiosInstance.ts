@@ -10,6 +10,14 @@ function isAxiosError(error: unknown): error is AxiosError {
   return (error as AxiosError).response !== undefined;
 }
 
+function isNotRetry(url: string | undefined) {
+  return url === '/login';
+}
+
+function isNotUsingAccessToken(url: string | undefined) {
+  return url === '/login' || url === '/token/refresh';
+}
+
 export default function useAuthAxiosInstance() {
   const navigate = useNavigate();
 
@@ -57,9 +65,9 @@ export default function useAuthAxiosInstance() {
   authAxios.interceptors.request.use(
     (config) => {
       const modifiedConfig = { ...config };
-      if (modifiedConfig.url === '/login' || modifiedConfig.url === '/token/refresh') return modifiedConfig;
-
+      if (isNotUsingAccessToken(modifiedConfig.url)) return modifiedConfig;
       if (accessToken) modifiedConfig.headers.Authorization = `Bearer ${accessToken}`;
+
       return modifiedConfig;
     },
     (error) => Promise.reject(error),
@@ -69,7 +77,7 @@ export default function useAuthAxiosInstance() {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
-      if (error.config.url === '/login') return Promise.reject(error);
+      if (isNotRetry(error.config.url)) return Promise.reject(error);
 
       if (error.response.status === SERVER_AUTH_ERROR_STATUS_CODE && !originalRequest.retry) {
         originalRequest.retry = true;

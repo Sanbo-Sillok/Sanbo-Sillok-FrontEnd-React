@@ -26,7 +26,7 @@ export default function useAuthAxiosInstance() {
   async function getNewRefreshToken() {
     try {
       const storedRefreshToken = localStorage.getItem(REFRESH_TOKEN);
-      if (!storedRefreshToken) return navigate('/login');
+      if (!storedRefreshToken) return null;
 
       const refreshBody = {
         refreshToken: storedRefreshToken,
@@ -46,7 +46,8 @@ export default function useAuthAxiosInstance() {
     } catch (refreshError) {
       if (isAxiosError(refreshError) && refreshError.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
         localStorage.removeItem(REFRESH_TOKEN);
-        return navigate('/login');
+
+        return null;
       }
 
       return null;
@@ -68,10 +69,16 @@ export default function useAuthAxiosInstance() {
     (response) => response,
     async (error) => {
       const originalRequest = error.config;
+      if (error.config.url === '/login') return Promise.reject(error);
 
       if (error.response.status === SERVER_AUTH_ERROR_STATUS_CODE && !originalRequest.retry) {
         originalRequest.retry = true;
         const newAccessToken = await getNewRefreshToken();
+        if (!newAccessToken) {
+          navigate('/login');
+
+          return Promise.reject(error);
+        }
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 

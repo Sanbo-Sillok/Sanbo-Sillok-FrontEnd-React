@@ -31,3 +31,7 @@ export interface NotExistWikiData extends WikiData {
 export interface RandomWikiTitle {
   title: string;
 }
+
+export interface WikiTitle {
+  title: string;
+}

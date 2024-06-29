@@ -10,6 +10,7 @@ import Login from '@/pages/Auth/Login';
 import WikiEdit from '@/pages/WikiEdit/WikiEdit';
 import SignUp from '@/pages/Auth/SignUp';
 import DefaultMetaTag from './components/common/DefaultMetaTag';
+import AllTitle from './pages/AllTitle';
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,10 @@ export default function App() {
               {
                 path: '/admin',
                 element: <Admin />,
+              },
+              {
+                path: '/all',
+                element: <AllTitle />,
               },
             ],
           },

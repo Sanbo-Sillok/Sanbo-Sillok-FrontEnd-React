@@ -5,6 +5,7 @@ import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
 import useSetToken from '@/hooks/auth/useSetToken';
 import { LoginBody, LoginResponse } from '@/types/apis/auth';
 import { REFRESH_TOKEN } from '@/constants/auth';
+import { USERNAME_OR_PASSWORD_WRONG } from '@/constants/serverStatusCode';
 
 export default function useLoginMutation() {
   const authAxios = useAuthAxiosInstance();
@@ -27,7 +28,7 @@ export default function useLoginMutation() {
   };
 
   const onError = (err: AxiosError) => {
-    if (err.response?.status === 401) alert('아이디 또는 패스워드가 틀렸습니다.');
+    if (err.response?.status === USERNAME_OR_PASSWORD_WRONG) alert('아이디 또는 패스워드가 틀렸습니다.');
   };
 
   return useMutation({

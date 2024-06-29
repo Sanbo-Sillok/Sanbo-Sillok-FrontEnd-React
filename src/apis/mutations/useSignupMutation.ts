@@ -1,39 +1,45 @@
-import { AxiosError, AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
 import { useMutation } from '@tanstack/react-query';
-import { REFRESH_TOKEN } from '@/constants/auth';
 import useAuthAxiosInstance from '@/hooks/useAuthAxiosInstance';
-import useSetToken from '@/hooks/token/useSetToken';
 import { SignupBody, SignupResponse } from '@/types/apis/auth';
 import useSignup from '@/hooks/SignupForm/useSignup';
 
 export default function useSignupMutation() {
   const authAxios = useAuthAxiosInstance();
   const { resetSignupForm } = useSignup();
-  const { setAccessToken } = useSetToken();
-  const navigate = useNavigate();
 
-  const signup = async ({ username, password }: { username: string; password: string }) => {
-    const response = await authAxios.post<SignupResponse, AxiosResponse<SignupResponse, SignupBody>>('/auth/signup', {
-      username,
-      password,
-    });
+  const signup = async ({ username, password, uploadImage }: { username: string; password: string; uploadImage: File }) => {
+    const response = await authAxios.post<SignupResponse, AxiosResponse<SignupResponse, SignupBody>>(
+      '/signup',
+      {
+        username,
+        password,
+        studentIdImage: uploadImage,
+      },
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      },
+    );
 
     return response.data;
   };
 
-  const onSuccess = (responseData: SignupResponse) => {
-    const { access_token: accessToken, refresh_token: refreshToken } = responseData.token;
+  const onSuccess = () => {
+    /* const { access_token: accessToken, refresh_token: refreshToken } = responseData.token;
 
     setAccessToken(accessToken);
     window.localStorage.setItem(REFRESH_TOKEN, refreshToken);
 
     resetSignupForm();
-    navigate('/');
+    navigate('/'); */
+    resetSignupForm();
+    alert('신청이 완료되었습니다.');
   };
 
-  const onError = (err: AxiosError) => {
-    if (err.response?.status === 400) alert('이미 존재하는 계정입니다.');
+  const onError = () => {
+    alert('잠시후 다시 시도해주세요');
   };
 
   return useMutation({

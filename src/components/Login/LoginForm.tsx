@@ -1,3 +1,4 @@
+import { LOGIN_FORM_KEY } from '@/utils/LoginFormData';
 import LoginButton from './LoginButton';
 
 interface LoginFormProps {
@@ -14,13 +15,13 @@ export default function LoginForm({ isLoading, onSubmit }: LoginFormProps) {
             className="rounded-md border border-base-200 p-2 focus:outline-none dark:border-base-400 dark:bg-base-600 dark:text-base-200"
             placeholder="Username"
             type="text"
-            name="username"
+            name={LOGIN_FORM_KEY.USERNAME}
           />
           <input
             className="rounded-md border border-base-200 p-2 focus:outline-none dark:border-base-400 dark:bg-base-600 dark:text-base-200"
             placeholder="Password"
             type="password"
-            name="password"
+            name={LOGIN_FORM_KEY.PASSWORD}
           />
         </div>
         <LoginButton isLoading={isLoading} />

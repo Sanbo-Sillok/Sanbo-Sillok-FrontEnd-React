@@ -3,6 +3,7 @@ export const REFRESH_TOKEN = 'refreshToken';
 
 // FIXME: 추후 제거
 export const ACCESS_TOKEN_LOCAL_STORAGE_EXPIRE = 1000 * 60 * 60; // 1시간
+export const REFRESH_TOKEN_LOCAL_STORAGE_EXPIRE = 1000 * 60 * 60 * 24 * 3; // 3일
 
 /**
  * 패스워드 정규식

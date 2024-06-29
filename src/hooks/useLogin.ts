@@ -1,5 +1,5 @@
 import useLoginMutation from '@/apis/mutations/useLoginMutation';
-import { LoginFormData } from '@/utils/LoginFormData';
+import { LoginFormData, LOGIN_FORM_KEY } from '@/utils/LoginFormData';
 
 export default function useLogin() {
   const { mutate: login, isPending } = useLoginMutation();
@@ -9,8 +9,8 @@ export default function useLogin() {
 
     const loginFormData = new FormData(event.currentTarget) as LoginFormData;
 
-    const username = loginFormData.get('username');
-    const password = loginFormData.get('password');
+    const username = loginFormData.get(LOGIN_FORM_KEY.USERNAME);
+    const password = loginFormData.get(LOGIN_FORM_KEY.PASSWORD);
 
     login({ username, password });
   };

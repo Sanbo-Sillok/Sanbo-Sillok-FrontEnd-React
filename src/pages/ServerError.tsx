@@ -8,7 +8,10 @@ interface ServerErrorProps extends FallbackProps {
 }
 
 export default function ServerError({ error, resetErrorBoundary }: ServerErrorProps) {
-  if (error.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) return <Navigate to="/login" />;
+  if (error.response?.status === SERVER_AUTH_ERROR_STATUS_CODE) {
+    window.location.reload();
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="flex items-center justify-center p-10">

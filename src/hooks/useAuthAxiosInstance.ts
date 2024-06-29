@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { useNavigate } from 'react-router-dom';
 import useToken from './auth/useToken';
 import useSetToken from './auth/useSetToken';
 import { REFRESH_TOKEN } from '@/constants/auth';
@@ -19,8 +18,6 @@ function isNotUsingAccessToken(url: string | undefined) {
 }
 
 export default function useAuthAxiosInstance() {
-  const navigate = useNavigate();
-
   const { accessToken } = useToken();
   const { setAccessToken } = useSetToken();
 
@@ -82,11 +79,7 @@ export default function useAuthAxiosInstance() {
       if (error.response.status === SERVER_AUTH_ERROR_STATUS_CODE && !originalRequest.retry) {
         originalRequest.retry = true;
         const newAccessToken = await getNewRefreshToken();
-        if (!newAccessToken) {
-          navigate('/login');
-
-          return Promise.reject(error);
-        }
+        if (!newAccessToken) return Promise.reject(error);
 
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
